@@ -1,0 +1,36 @@
+{
+  "name": "totalfix-landing-page",
+  "version": "1.0.0",
+  "description": "Landing page para TotalFix - Automatización SST & Productividad con Jotform",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'No build process needed for static site'",
+    "test": "echo 'No tests configured yet'",
+    "backend": "cd backend/scripts && python email_handler.py",
+    "install-backend": "cd backend && pip install -r requirements.txt"
+  },
+  "keywords": [
+    "landing-page",
+    "totalfix",
+    "automatizacion",
+    "sst",
+    "jotform",
+    "chile"
+  ],
+  "author": "TotalFix",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/totalfix/landing-page"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "python": ">=3.8.0"
+  }
+}
+

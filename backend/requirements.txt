@@ -1,0 +1,28 @@
+# TotalFix Backend - Dependencias Python
+# ================================================================== */
+
+# Framework web
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# Manejo de correos
+secure-smtplib==0.1.1
+
+# Utilidades
+python-dotenv==1.0.0
+requests==2.31.0
+
+# Logging y monitoreo
+structlog==23.1.0
+
+# Validación de datos
+pydantic==2.4.2
+
+# Base de datos (opcional para futuras mejoras)
+# SQLAlchemy==2.0.21
+# psycopg2-binary==2.9.7
+
+# Testing (desarrollo)
+pytest==7.4.2
+pytest-flask==1.2.0
+
