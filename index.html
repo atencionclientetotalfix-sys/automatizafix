@@ -129,9 +129,9 @@
             <symbol id="icon-plus" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </symbol>
-            <!-- WhatsApp (Simplified) -->
+            <!-- WhatsApp (Official) -->
             <symbol id="icon-whatsapp" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12c0 5.23 4.02 9.53 9.22 9.97l.78.03c5.52 0 10-4.48 10-10S17.52 2 12 2zm2.5 15.5l-1.12-1.89c-.11-.19-.36-.26-.57-.17l-1.25.54c-.16.07-.35.05-.48-.06C9.37 14.7 8 13.06 7.42 11.23c-.11-.34.05-.72.37-.93l.54-1.25c.09-.2.02-.45-.17-.57L8.5 7.5c-.17-.11-.39-.12-.57-.04L6.96 7.8c-.53.22-.84.77-.73 1.33.27 1.35 1.13 2.5 2.2 3.42 1.37 1.2 3.05 1.83 4.84 1.83.65 0 1.28-.23 1.77-.66l.84-.71c.14-.12.37-.11.5.03z"/>
+                <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
             </symbol>
             <!-- Report/Graph -->
             <symbol id="icon-report" viewBox="0 0 24 24">
@@ -140,6 +140,14 @@
             <!-- Cloud Integration -->
             <symbol id="icon-cloud-sync" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-2.82 0-5.26 1.43-6.71 3.53C3.52 8.79 2 10.79 2 13c0 3.31 2.69 6 6 6h11c2.21 0 4-1.79 4-4 0-2.07-1.55-3.8-3.65-3.96zM17 14l-4-4v3H8v2h5v3l4-4z"/>
+            </symbol>
+            <!-- Location -->
+            <symbol id="icon-location" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </symbol>
+            <!-- Email -->
+            <symbol id="icon-email" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </symbol>
         </defs>
     </svg>
@@ -178,8 +186,15 @@
             <!-- CTA Primario (Desktop) -->
             <a href="#contacto" class="btn btn-primary nav-cta-desktop" aria-label="Solicitar diagnóstico de automatización">Solicitar diagnóstico</a>
             
-            <!-- Botón de menú (Mobile - No funcional, placeholder) -->
-            <button class="nav-cta-mobile btn btn-secondary" aria-label="Abrir menú de navegación (no funcional)">☰</button>
+            <!-- Botón WhatsApp (Mobile y Desktop) -->
+            <a href="https://wa.me/56961932656?text=Hola%20TotalFix%2C%20quisiera%20agendar%20un%20diagn%C3%B3stico%20de%20automatizaci%C3%B3n%20para%20SST%2FProductividad%20con%20Jotform." 
+               class="btn btn-whatsapp-header" 
+               target="_blank" 
+               rel="noopener" 
+               aria-label="Contactar por WhatsApp">
+                <svg width="20" height="20" fill="currentColor"><use xlink:href="#icon-whatsapp"></use></svg>
+                Contactar
+            </a>
         </div>
     </header>
 
@@ -192,9 +207,21 @@
             <p class="hero-subtitle">Transforma tareas repetitivas en procesos inteligentes que ahorran tiempo, reducen errores y generan valor estratégico. **Automatización total** para áreas operacionales, administrativas y de prevención de riesgos.</p>
             
             <ul class="hero-bullets">
-                <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> <strong class="text-primary">Ahorro de tiempo:</strong> Elimina tareas repetitivas y automatiza procesos críticos.</li>
-                <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> <strong class="text-primary">Eficiencia operacional:</strong> Flujos inteligentes que reducen errores y cuellos de botella.</li>
-                <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> <strong class="text-primary">Ventaja competitiva:</strong> Tecnología que multiplica la productividad de tu equipo.</li>
+                <li>
+                    <svg width="20" height="20"><use xlink:href="#icon-check"></use></svg>
+                    <strong class="text-primary">Ahorro de tiempo:</strong>
+                    <span>Elimina tareas repetitivas y automatiza procesos críticos.</span>
+                </li>
+                <li>
+                    <svg width="20" height="20"><use xlink:href="#icon-check"></use></svg>
+                    <strong class="text-primary">Eficiencia operacional:</strong>
+                    <span>Flujos inteligentes que reducen errores y cuellos de botella.</span>
+                </li>
+                <li>
+                    <svg width="20" height="20"><use xlink:href="#icon-check"></use></svg>
+                    <strong class="text-primary">Ventaja competitiva:</strong>
+                    <span>Tecnología que multiplica la productividad de tu equipo.</span>
+                </li>
             </ul>
 
             <div class="hero-ctas">
@@ -204,46 +231,116 @@
                 <a href="https://wa.me/56961932656?text=Hola%20TotalFix%2C%20quisiera%20saber%20m%C3%A1s%20sobre%20la%20automatizaci%C3%B3n%20con%20Jotform%20para%20mi%20empresa." 
                    target="_blank" 
                    rel="noopener" 
-                   class="btn btn-secondary btn-lg" 
+                   class="btn btn-whatsapp-hero btn-lg" 
                    aria-label="Hablar con un experto por WhatsApp">
+                    <svg width="20" height="20" fill="currentColor"><use xlink:href="#icon-whatsapp"></use></svg>
                     Hablar por WhatsApp
                 </a>
             </div>
         </div>
         
         <div class="mockup-container">
-             <!-- Jotform Mockup (Flujo de Aprobación) SVG Placeholder -->
-             <svg class="mockup-svg" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mockup de flujo de trabajo de Jotform con pasos de formulario y aprobación">
-                <rect width="500" height="300" rx="10" fill="#374151"/> <!-- Dark background -->
-                <rect x="20" y="20" width="100" height="40" rx="5" fill="#22c55e"/> <!-- Start/Form -->
-                <text x="70" y="45" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Formulario AST</text>
-                
-                <path d="M120 40 L160 40" stroke="#f3f4f6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                
-                <rect x="160" y="20" width="100" height="40" rx="5" fill="#2563eb"/> <!-- Approval -->
-                <text x="210" y="45" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Aprobación Jefatura</text>
-
-                <path d="M260 40 L300 40" stroke="#f3f4f6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                
-                <rect x="300" y="20" width="100" height="40" rx="5" fill="#f59e0b"/> <!-- Condition -->
-                <text x="350" y="45" font-family="Arial" font-size="12" fill="white" text-anchor="middle">¿Riesgo Crítico?</text>
-                
-                <path d="M400 40 L440 40" stroke="#f3f4f6" stroke-width="2" marker-end="url(#arrowhead)"/>
-                
-                <rect x="440" y="20" width="40" height="40" rx="5" fill="#ef4444"/> <!-- End/Notification -->
-                <text x="460" y="45" font-family="Arial" font-size="10" fill="white" text-anchor="middle">Alerta</text>
-
-                <!-- Second path down from Approval -->
-                <path d="M210 60 L210 100 L40 100 L40 180" stroke="#f3f4f6" stroke-width="2" fill="none"/>
-                
-                <rect x="20" y="180" width="100" height="40" rx="5" fill="#8b5cf6"/> <!-- Action -->
-                <text x="70" y="205" font-family="Arial" font-size="12" fill="white" text-anchor="middle">PDF Auto.</text>
-                
+             <!-- Jotform Mockup (Flujo de Aprobación) SVG Mejorado -->
+             <svg class="mockup-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mockup de flujo de trabajo de Jotform con pasos de formulario y aprobación">
+                <!-- Definiciones de gradientes y efectos -->
                 <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                        <polygon points="0 0, 10 3.5, 0 7" fill="#f3f4f6" />
+                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#334155;stop-opacity:1" />
+                    </linearGradient>
+                    
+                    <!-- Gradientes refinados para círculos -->
+                    <radialGradient id="verdeGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#22c55e;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <radialGradient id="azulGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#2563eb;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <radialGradient id="naranjaGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#f59e0b;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <radialGradient id="rojoGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#f87171;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#ef4444;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <radialGradient id="purpuraGradient" cx="30%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+                    </radialGradient>
+                    
+                    <!-- Flechas mejoradas -->
+                    <marker id="arrowhead" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+                        <polygon points="0 0, 12 5, 0 10" fill="#f3f4f6" stroke="#f3f4f6" stroke-width="1"/>
+                    </marker>
+                    
+                    <marker id="arrowheadGlow" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto">
+                        <polygon points="0 0, 12 5, 0 10" fill="#60a5fa" stroke="#60a5fa" stroke-width="2"/>
                     </marker>
                 </defs>
+                
+                <!-- Fondo con gradiente -->
+                <rect width="800" height="400" rx="15" fill="url(#bgGradient)"/>
+                
+                <!-- Círculo 1: Formulario AST (Centrado arriba) -->
+                <circle cx="150" cy="100" r="45" fill="url(#verdeGradient)" class="flow-step" style="animation-delay: 0s;"/>
+                <text x="150" y="95" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">Formulario</text>
+                <text x="150" y="108" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">AST</text>
+                
+                <!-- Flecha 1 - Curva suave -->
+                <path d="M195 100 Q220 100 245 100" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 0.5s;"/>
+                
+                <!-- Círculo 2: Aprobación Jefatura -->
+                <circle cx="350" cy="100" r="45" fill="url(#azulGradient)" class="flow-step" style="animation-delay: 1s;"/>
+                <text x="350" y="90" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="white" text-anchor="middle">Aprobación</text>
+                <text x="350" y="103" font-family="Arial, sans-serif" font-size="10" font-weight="600" fill="white" text-anchor="middle">Jefatura</text>
+                
+                <!-- Flecha 2 - Curva suave -->
+                <path d="M395 100 Q420 100 445 100" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 1.5s;"/>
+                
+                <!-- Círculo 3: ¿Riesgo Crítico? -->
+                <circle cx="550" cy="100" r="45" fill="url(#naranjaGradient)" class="flow-step" style="animation-delay: 2s;"/>
+                <text x="550" y="90" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="white" text-anchor="middle">¿Riesgo</text>
+                <text x="550" y="103" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="white" text-anchor="middle">Crítico?</text>
+                
+                <!-- Flecha 3 - Curva suave -->
+                <path d="M595 100 Q620 100 645 100" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 2.5s;"/>
+                
+                <!-- Círculo 4: Alerta -->
+                <circle cx="700" cy="100" r="45" fill="url(#rojoGradient)" class="flow-step" style="animation-delay: 3s;"/>
+                <text x="700" y="100" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="white" text-anchor="middle">Alerta</text>
+                
+                <!-- Flecha de bifurcación - Curva elegante hacia abajo -->
+                <path d="M350 145 Q350 170 350 200" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 3.5s;"/>
+                
+                <!-- Flecha horizontal - Curva suave hacia la izquierda -->
+                <path d="M350 200 Q275 200 200 200" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 4s;"/>
+                
+                <!-- Flecha hacia arriba - Curva elegante -->
+                <path d="M200 200 Q200 225 200 250" stroke="#f3f4f6" stroke-width="3" marker-end="url(#arrowhead)" class="flow-line" style="animation-delay: 4.5s;"/>
+                
+                <!-- Círculo 5: PDF Auto (Centrado abajo) -->
+                <circle cx="200" cy="300" r="45" fill="url(#purpuraGradient)" class="flow-step" style="animation-delay: 5s;"/>
+                <text x="200" y="295" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">PDF</text>
+                <text x="200" y="308" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">Auto</text>
+                
+                <!-- Efectos de brillo sutiles en círculos -->
+                <circle cx="150" cy="100" r="45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" opacity="0.4"/>
+                <circle cx="350" cy="100" r="45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" opacity="0.4"/>
+                <circle cx="550" cy="100" r="45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" opacity="0.4"/>
+                <circle cx="700" cy="100" r="45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" opacity="0.4"/>
+                <circle cx="200" cy="300" r="45" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" opacity="0.4"/>
             </svg>
         </div>
     </section>
@@ -344,27 +441,64 @@
     </section>
     
     <!-- ================================================================== -->
-    <!-- Section: Por qué Jotform para HSE/Operaciones -->
+    <!-- Section: Videos Demostrativos -->
     <!-- ================================================================== -->
-    <section class="section-padding" style="padding-top: 2rem;">
-        <div class="container text-center">
-            <h2>¿Por qué Elegir <span class="text-primary">Jotform</span> para la Automatización Crítica?</h2>
-            <p class="hero-subtitle mb-8">La plataforma más robusta y amigable para digitalizar cualquier proceso HSE, RR.HH. u Operacional.</p>
+    <section id="videos-demostrativos" class="section-padding" style="padding-top: 2rem;">
+        <div class="container">
+            <h2>Videos <span class="text-primary">Demostrativos</span></h2>
+            <p class="text-center hero-subtitle mb-8">Descubre cómo funciona la automatización de procesos con ejemplos reales y casos de uso específicos.</p>
 
-            <div class="jotform-features">
-                <span class="jotform-feature-tag">Arrastrar y Soltar</span>
-                <span class="jotform-feature-tag">Lógicas Condicionales Avanzadas</span>
-                <span class="jotform-feature-tag">Aprobaciones Multi-Nivel</span>
-                <span class="jotform-feature-tag">Firmas Digitales Legales</span>
-                <span class="jotform-feature-tag">Rutas por Rol/Departamento</span>
-                <span class="jotform-feature-tag">Anexos y Subidas de Archivos</span>
-                <span class="jotform-feature-tag">Exportación a Sheets/Drive</span>
-                <span class="jotform-feature-tag">Permisos de Equipo Detallados</span>
-                <span class="jotform-feature-tag">Logs de Auditoría Inmutables</span>
-                <span class="jotform-feature-tag">Integraciones con Cientos de Apps</span>
-                <span class="jotform-feature-tag">Tableros de Reporte Personalizados</span>
+            <div class="videos-grid">
+                <!-- Video 1: Automatización de SST -->
+                <div class="video-container">
+                    <div class="video-header">
+                        <h3>Automatización de Procesos SST</h3>
+                        <p>Flujo completo de Análisis Seguro de Trabajo (AST) con aprobaciones automáticas</p>
+                    </div>
+                    <div class="video-wrapper">
+                        <video controls preload="metadata" poster="assets/images/video1-poster.jpg">
+                            <source src="assets/images/demo-sst.mp4" type="video/mp4">
+                            <source src="assets/images/demo-sst.webm" type="video/webm">
+                            Tu navegador no soporta la reproducción de videos.
+                        </video>
+                    </div>
+                    <div class="video-footer">
+                        <span class="video-duration">⏱️ 3:45 min</span>
+                        <span class="video-tag">SST</span>
+                    </div>
+                </div>
+
+                <!-- Video 2: Optimización Operacional -->
+                <div class="video-container">
+                    <div class="video-header">
+                        <h3>Optimización de Operaciones</h3>
+                        <p>Sistema de órdenes de trabajo con flujos de aprobación inteligentes</p>
+                    </div>
+                    <div class="video-wrapper">
+                        <video controls preload="metadata" poster="assets/images/video2-poster.jpg">
+                            <source src="assets/images/demo-flujo.mp4" type="video/mp4">
+                            <source src="assets/images/demo-flujo.webm" type="video/webm">
+                            Tu navegador no soporta la reproducción de videos.
+                        </video>
+                    </div>
+                    <div class="video-footer">
+                        <span class="video-duration">⏱️ 4:20 min</span>
+                        <span class="video-tag">Operaciones</span>
+                    </div>
+                </div>
             </div>
-            <p class="mt-4"><a href="#contacto" class="text-primary font-semibold">Solicita tu diagnóstico y descubre todo el potencial de Jotform.</a></p>
+            
+            <div class="text-center mt-16">
+                <a href="#contacto" class="btn btn-demo-premium" aria-label="Solicitar demostración personalizada">
+                    <span class="btn-demo-text">
+                        Solicitar Demostración Personalizada
+                        <svg width="20" height="20" fill="currentColor" class="btn-demo-arrow">
+                            <use xlink:href="#icon-send"></use>
+                        </svg>
+                    </span>
+                    <span class="btn-demo-glow"></span>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -376,43 +510,11 @@
         <div class="container">
             <h2 class="mb-8">Nuestros Clientes ya Ganan <span class="text-primary">Trazabilidad y Tiempo</span></h2>
             
-            <!-- Testimonios -->
-            <div class="grid-cols-1 lg\:grid-cols-3 mb-8">
-                
-                <blockquote class="testimonial-card" role="blockquote">
-                    <p>"Redujimos el tiempo de aprobación de EPP de 2 días a 2 horas. La trazabilidad en SST es clave para nosotros, y con el flujo de Jotform logramos la evidencia perfecta para auditoría."</p>
-                    <cite class="testimonial-author">
-                        Rodrigo A.
-                        <span>Jefe de Operaciones | Sector Distribución Eléctrica</span>
-                    </cite>
-                </blockquote>
-
-                <blockquote class="testimonial-card" role="blockquote">
-                    <p>"Necesitábamos estandarizar el reporte de incidentes. Ahora es automático, con fotos y ubicación GPS, y notifica a HSE de inmediato. El equipo de TotalFix entendió rápido nuestro dolor."</p>
-                    <cite class="testimonial-author">
-                        Paula M.
-                        <span>Líder de HSE | Sector Industrial</span>
-                    </cite>
-                </blockquote>
-
-                <blockquote class="testimonial-card" role="blockquote">
-                    <p>"El piloto que implementamos para las solicitudes de vacaciones fue un éxito. Los flujos de aprobación y el aviso automático al PMO nos liberaron de una carga administrativa enorme."</p>
-                    <cite class="testimonial-author">
-                        Cristian V.
-                        <span>Dueño de Pyme | Sector Servicios</span>
-                    </cite>
-                </blockquote>
-
+            <!-- Testimonios (Cargados dinámicamente) -->
+            <div class="grid-cols-1 lg:grid-cols-3 mb-8" id="testimonios-container">
+                <!-- Los testimonios se cargarán automáticamente desde assets/data/testimonios.json -->
             </div>
 
-            <!-- Logos de Sectores (Placeholders) -->
-            <div class="grid-cols-1 sm\:grid-cols-2 lg\:grid-cols-5" style="gap: 0.5rem; margin-top: 4rem;">
-                <div class="logo-placeholder">Distribución eléctrica</div>
-                <div class="logo-placeholder">Industrial</div>
-                <div class="logo-placeholder">Acuícola</div>
-                <div class="logo-placeholder">Construcción</div>
-                <div class="logo-placeholder">Servicios</div>
-            </div>
         </div>
     </section>
 
@@ -424,7 +526,7 @@
             <h2 class="text-text-light mb-4">Transforma tu Empresa: <span class="text-primary">Planes de Automatización</span></h2>
             <p class="hero-subtitle mb-8" style="color: var(--color-text-light);">Elige el plan que mejor se adapta a tus necesidades de automatización. Nos enfocamos en maximizar la productividad y el ROI de tu inversión.</p>
             
-            <div class="grid-cols-1 lg\:grid-cols-3">
+            <div class="grid-cols-1 lg\:grid-cols-2 pricing-grid-centered">
                 
                 <!-- Plan 1: Diagnóstico -->
                 <div class="pricing-card">
@@ -460,22 +562,6 @@
                     <a href="#contacto" class="btn btn-primary" style="background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-secondary);" aria-label="Solicitar presupuesto para Plan Piloto">¡Comenzar el Piloto!</a>
                 </div>
                 
-                <!-- Plan 3: Escala -->
-                <div class="pricing-card">
-                    <div class="pricing-card-header">
-                        <span class="badge-bonificado">Proyecto</span>
-                        <h3>Transformación Completa</h3>
-                        <div class="pricing-price">Personalizado</div>
-                        <p class="text-sm opacity-80" style="color: var(--color-text-light);">Automatización Total de la Empresa</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> Automatización completa de todas las áreas.</li>
-                        <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> Integraciones avanzadas con sistemas existentes.</li>
-                        <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> Tableros de Productividad Avanzados.</li>
-                        <li><svg width="20" height="20"><use xlink:href="#icon-check"></use></svg> Optimización continua y soporte dedicado.</li>
-                    </ul>
-                    <a href="#contacto" class="btn btn-primary" aria-label="Solicitar presupuesto para el Plan Escala">Cotizar Proyecto</a>
-                </div>
 
             </div>
         </div>
@@ -637,7 +723,7 @@
                     <div class="form-group">
                         <label class="checkbox-group">
                             <input type="checkbox" id="consentimiento" name="consentimiento" required aria-required="true">
-                            Acepto la <a href="#" class="text-primary" target="_blank">Política de Privacidad</a> y el uso de mis datos para la asesoría solicitada. <span class="text-primary">*</span>
+                            Acepto la <a href="#" class="text-primary" onclick="abrirModal(); return false;">Política de Privacidad</a> y el uso de mis datos para la asesoría solicitada. <span class="text-primary">*</span>
                         </label>
                     </div>
 
@@ -661,40 +747,54 @@
             <div class="footer-grid">
                 
                 <div class="footer-info">
-                    <!-- Logo (repetido para consistencia visual) -->
-                    <img src="https://raw.githubusercontent.com/atencionclientetotalfix-sys/ToatalFix_Paguinas-Iniciales/main/assets/images/logo-totalfix.png" alt="TotalFix Logo" height="35" style="max-width: 180px;" class="logo-footer">
-                    <p class="mt-4">Automatización de Flujos de Trabajo y Optimización de Productividad Empresarial en Chile.</p>
-                    <p><strong>Ubicación:</strong> Puerto Montt, Chile</p>
-                    <p><strong>Email:</strong> <a href="mailto:atencioncliente.totalfix@gmail.com">atencioncliente.totalfix@gmail.com</a></p>
-                    <p><strong>WhatsApp:</strong> <a href="tel:+56961932656">+56 9 6193 2656</a></p>
+                    <!-- Logo y descripción -->
+                    <div class="footer-brand">
+                        <img src="https://raw.githubusercontent.com/atencionclientetotalfix-sys/ToatalFix_Paguinas-Iniciales/main/assets/images/logo-totalfix.png" alt="TotalFix Logo" height="40" style="max-width: 200px;" class="logo-footer">
+                        <p class="footer-description">Automatización de Flujos de Trabajo y Optimización de Productividad Empresarial en Chile.</p>
+                    </div>
                     
-                    <div class="social-icons" style="margin-top: 1rem;">
-                        <!-- TODO: Reemplazar con enlaces reales -->
-                        <a href="#" target="_blank" rel="noopener" aria-label="Síguenos en LinkedIn">
-                            <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5V13.5h-2c-1.55 0-2.31 1.23-2.31 2.45v2.55H12V13.5c0-2.22 1.34-3.79 3.51-3.79 1.72 0 2.5 1.05 2.5 2.2V18.5h2V13.5a3.84 3.84 0 0 0-3.8-3.95c-2.45 0-3.56 1.76-3.56 3.75V18.5h2V15.95c0-1.25.76-1.7 1.48-1.7H16v4.25H18.5m-15-5.5H7.5v10H3.5V10.5m4-7c.83 0 1.5.67 1.5 1.5S8.33 6.5 7.5 6.5 6 5.83 6 5s.67-1.5 1.5-1.5z"/></svg>
-                        </a>
-                         <a href="#" target="_blank" rel="noopener" aria-label="Síguenos en Facebook">
-                             <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.03 0 9.2-3.86 9.95-8.83H17v-3h-2v3h-2v-3h-2v3h-2v-3H9v3H7v-3H5v3h-2c0 2.37.93 4.5 2.44 6.13l.47.52L12 20.95l5.09-2.29.53-.24C19.74 16.5 22 13.9 22 12c0-5.52-4.48-10-10-10zm.5 15.5h-1V12h1.5l.5 3h1.5v-3h1.5v3h1.5V12h1.5v-3H12v3H8.5v-3H7v3H5.5v3H7v3h1.5v-3h1.5v3z"/></svg>
-                        </a>
+                    <!-- Información de contacto mejorada -->
+                    <div class="footer-contact">
+                        <div class="contact-item">
+                            <svg width="20" height="20" fill="currentColor" class="contact-icon">
+                                <use xlink:href="#icon-location"></use>
+                            </svg>
+                            <div>
+                                <strong>Ubicación</strong>
+                                <p>Puerto Montt, Chile</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <svg width="20" height="20" fill="currentColor" class="contact-icon">
+                                <use xlink:href="#icon-email"></use>
+                            </svg>
+                            <div>
+                                <strong>Email</strong>
+                                <p><a href="mailto:atencioncliente.totalfix@gmail.com">atencioncliente.totalfix@gmail.com</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <svg width="20" height="20" fill="currentColor" class="contact-icon">
+                                <use xlink:href="#icon-whatsapp"></use>
+                            </svg>
+                            <div>
+                                <strong>WhatsApp</strong>
+                                <p><a href="https://wa.me/56961932656">+56 9 6193 2656</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="footer-links">
-                    <h4>Mapa del Sitio</h4>
+                    <h4>Navegación</h4>
                     <ul>
                         <li><a href="#beneficios">Beneficios</a></li>
                         <li><a href="#como-funciona">Cómo Funciona</a></li>
+                        <li><a href="#videos-demostrativos">Videos Demostrativos</a></li>
                         <li><a href="#planes">Planes y Precios</a></li>
                         <li><a href="#contacto">Agenda tu Diagnóstico</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-links">
-                    <h4>Información Legal</h4>
-                    <ul>
-                        <li><a href="#">Aviso de Privacidad</a></li>
-                        <li><a href="#">Términos del Servicio</a></li>
-                        <li><a href="#">Soporte</a></li>
                     </ul>
                 </div>
             </div>
@@ -709,5 +809,171 @@
     <!-- JavaScript External -->
     <!-- ================================================================== -->
     <script src="assets/js/main.js"></script>
+    
+    <!-- ================================================================== -->
+    <!-- Funciones del Modal (Backup) -->
+    <!-- ================================================================== -->
+    <script>
+        // Funciones del modal como backup
+        function abrirModal() {
+            console.log('🔍 Función abrirModal() llamada desde HTML');
+            const modal = document.getElementById('privacy-modal');
+            console.log('🔍 Modal encontrado:', modal);
+            
+            if (modal) {
+                console.log('✅ Abriendo modal...');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                console.log('✅ Modal abierto exitosamente');
+            } else {
+                console.error('❌ Modal no encontrado con ID: privacy-modal');
+            }
+        }
+
+        function cerrarModal() {
+            console.log('🔍 Cerrando modal...');
+            const modal = document.getElementById('privacy-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                console.log('✅ Modal cerrado exitosamente');
+            }
+        }
+
+        // Hacer funciones globales
+        window.abrirModal = abrirModal;
+        window.cerrarModal = cerrarModal;
+        
+        console.log('🔍 Funciones del modal definidas en HTML');
+
+        // Event listeners para cerrar el modal
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('privacy-modal');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('privacy-modal');
+                if (modal && modal.style.display === 'flex') {
+                    cerrarModal();
+                }
+            }
+        });
+    </script>
+    
+    <!-- Script para cargar testimonios -->
+    <script>
+        // Cargar testimonios cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM cargado, cargando testimonios...');
+            
+            const container = document.getElementById('testimonios-container');
+            if (container) {
+                console.log('✅ Contenedor encontrado, agregando testimonios...');
+                
+                container.innerHTML = `
+                    <div class="testimonial-card" style="padding: 1.5rem; background: var(--color-card-bg); border-radius: 0.5rem; border: 1px solid var(--color-border); margin-bottom: 1rem;">
+                        <p>"Redujimos el tiempo de aprobación de EPP de 2 días a 2 horas. La trazabilidad en SST es clave para nosotros, y con el flujo de Jotform logramos la evidencia perfecta para auditoría."</p>
+                        <cite class="testimonial-author">
+                            Rodrigo A.
+                            <span>Jefe de Operaciones | Sector Distribución Eléctrica</span>
+                        </cite>
+                    </div>
+                    <div class="testimonial-card" style="padding: 1.5rem; background: var(--color-card-bg); border-radius: 0.5rem; border: 1px solid var(--color-border); margin-bottom: 1rem;">
+                        <p>"Necesitábamos estandarizar el reporte de incidentes. Ahora es automático, con fotos y ubicación GPS, y notifica a HSE de inmediato. El equipo de TotalFix entendió rápido nuestro dolor."</p>
+                        <cite class="testimonial-author">
+                            Paula M.
+                            <span>Líder de HSE | Sector Industrial</span>
+                        </cite>
+                    </div>
+                    <div class="testimonial-card" style="padding: 1.5rem; background: var(--color-card-bg); border-radius: 0.5rem; border: 1px solid var(--color-border); margin-bottom: 1rem;">
+                        <p>"La automatización de nuestros procesos de monitoreo de calidad del agua y control de biomasa ha sido revolucionaria. Ahora tenemos trazabilidad completa en tiempo real y alertas automáticas que nos permiten tomar decisiones más rápidas y precisas en nuestros cultivos."</p>
+                        <cite class="testimonial-author">
+                            Pablo Rain
+                            <span>Gerente de Operaciones | Servicios Acuícolas PyV</span>
+                        </cite>
+                    </div>
+                `;
+                console.log('✅ Testimonios cargados exitosamente');
+            } else {
+                console.error('❌ No se encontró el contenedor testimonios-container');
+            }
+        });
+    </script>
+
+    <!-- ================================================================== -->
+    <!-- Modal de Políticas de Privacidad -->
+    <!-- ================================================================== -->
+    <div id="privacy-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Política de Privacidad - TotalFix SpA</h3>
+                <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>1. Identificación de la Empresa</h4>
+                <p><strong>TotalFix SpA</strong> es una empresa chilena especializada en automatización de procesos empresariales y optimización de productividad. Nos comprometemos a proteger la privacidad y seguridad de la información de nuestros clientes.</p>
+                
+                <h4>2. Información que Recopilamos</h4>
+                <p>Recopilamos únicamente la información necesaria para brindar nuestros servicios de automatización:</p>
+                <ul>
+                    <li>Datos de contacto (nombre, empresa, email, teléfono)</li>
+                    <li>Información sobre desafíos de productividad de su empresa</li>
+                    <li>Datos técnicos necesarios para el diagnóstico de automatización</li>
+                </ul>
+                
+                <h4>3. Uso y Tratamiento de Datos</h4>
+                <p>Utilizamos su información exclusivamente para:</p>
+                <ul>
+                    <li>Proporcionar el servicio de diagnóstico de automatización solicitado</li>
+                    <li>Contactarlo para agendar consultas y seguimiento</li>
+                    <li>Enviar información relevante sobre nuestros servicios</li>
+                    <li>Mejorar continuamente nuestros servicios y experiencia del cliente</li>
+                </ul>
+                
+                <h4>4. Seguridad de la Información</h4>
+                <p>Implementamos medidas de seguridad técnicas y organizacionales de nivel empresarial para proteger su información:</p>
+                <ul>
+                    <li>Encriptación de datos en tránsito y reposo</li>
+                    <li>Acceso restringido únicamente a personal autorizado</li>
+                    <li>Monitoreo continuo de sistemas de seguridad</li>
+                    <li>Cumplimiento con estándares internacionales de protección de datos</li>
+                </ul>
+                
+                <h4>5. Compartir Información</h4>
+                <p><strong>No vendemos, alquilamos ni compartimos</strong> su información personal con terceros, excepto cuando sea estrictamente necesario para proporcionar nuestros servicios o cuando la legislación chilena lo requiera.</p>
+                
+                <h4>6. Sus Derechos</h4>
+                <p>Usted tiene derecho a:</p>
+                <ul>
+                    <li>Acceder a la información que tenemos sobre usted</li>
+                    <li>Corregir datos inexactos o incompletos</li>
+                    <li>Solicitar la eliminación de su información</li>
+                    <li>Limitar el procesamiento de sus datos</li>
+                    <li>Retirar su consentimiento en cualquier momento</li>
+                </ul>
+                
+                <h4>7. Contacto y Consultas</h4>
+                <p>Para ejercer sus derechos o realizar consultas sobre esta política, contáctenos:</p>
+                <ul>
+                    <li><strong>Email:</strong> atencioncliente.totalfix@gmail.com</li>
+                    <li><strong>Teléfono:</strong> +56 9 6193 2656</li>
+                    <li><strong>Ubicación:</strong> Puerto Montt, Chile</li>
+                </ul>
+                
+                <h4>8. Cambios a esta Política</h4>
+                <p>Podemos actualizar esta Política de Privacidad para reflejar cambios en nuestras prácticas. Le notificaremos sobre cambios significativos publicando la nueva política en esta página.</p>
+                
+                <p><strong>Última actualización:</strong> Enero 2025</p>
+                <p><strong>Vigencia:</strong> Esta política es efectiva desde el momento de su aceptación y permanece vigente mientras mantenga relación comercial con TotalFix SpA.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="cerrarModal()">Entendido</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

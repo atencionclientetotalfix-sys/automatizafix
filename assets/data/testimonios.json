@@ -1,0 +1,25 @@
+{
+  "testimonios": [
+    {
+      "id": 1,
+      "texto": "Redujimos el tiempo de aprobación de EPP de 2 días a 2 horas. La trazabilidad en SST es clave para nosotros, y con el flujo de Jotform logramos la evidencia perfecta para auditoría.",
+      "nombre": "Rodrigo A.",
+      "cargo": "Jefe de Operaciones | Sector Distribución Eléctrica",
+      "sector": "Distribución eléctrica"
+    },
+    {
+      "id": 2,
+      "texto": "Necesitábamos estandarizar el reporte de incidentes. Ahora es automático, con fotos y ubicación GPS, y notifica a HSE de inmediato. El equipo de TotalFix entendió rápido nuestro dolor.",
+      "nombre": "Paula M.",
+      "cargo": "Líder de HSE | Sector Industrial",
+      "sector": "Industrial"
+    },
+    {
+      "id": 3,
+      "texto": "La automatización de nuestros procesos de monitoreo de calidad del agua y control de biomasa ha sido revolucionaria. Ahora tenemos trazabilidad completa en tiempo real y alertas automáticas que nos permiten tomar decisiones más rápidas y precisas en nuestros cultivos.",
+      "nombre": "Pablo Rain",
+      "cargo": "Gerente de Operaciones | Servicios Acuícolas PyV",
+      "sector": "Acuícola"
+    }
+  ]
+}

@@ -2,6 +2,65 @@
 /* TotalFix Landing Page - JavaScript Optimizado */
 /* ================================================================== */
 
+// ================================================================== */
+// Funciones del Modal (GLOBALES - DEBEN ESTAR PRIMERO)
+// ================================================================== */
+
+/**
+ * Abre el modal de políticas de privacidad
+ */
+function abrirModal() {
+    console.log('🔍 Función abrirModal() llamada');
+    const modal = document.getElementById('privacy-modal');
+    console.log('🔍 Modal encontrado:', modal);
+    
+    if (modal) {
+        console.log('✅ Abriendo modal...');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+        
+        // Enfocar el modal para accesibilidad
+        modal.setAttribute('aria-hidden', 'false');
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'modal-title');
+        
+        // Enfocar el botón de cierre
+        const closeButton = modal.querySelector('.modal-close');
+        if (closeButton) {
+            closeButton.focus();
+        }
+        console.log('✅ Modal abierto exitosamente');
+    } else {
+        console.error('❌ Modal no encontrado con ID: privacy-modal');
+    }
+}
+
+/**
+ * Cierra el modal de políticas de privacidad
+ */
+function cerrarModal() {
+    console.log('🔍 Cerrando modal...');
+    const modal = document.getElementById('privacy-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restaurar scroll del body
+        
+        // Actualizar atributos de accesibilidad
+        modal.setAttribute('aria-hidden', 'true');
+        modal.removeAttribute('role');
+        modal.removeAttribute('aria-modal');
+        modal.removeAttribute('aria-labelledby');
+        console.log('✅ Modal cerrado exitosamente');
+    }
+}
+
+// Hacer funciones globales INMEDIATAMENTE
+window.abrirModal = abrirModal;
+window.cerrarModal = cerrarModal;
+
+console.log('🔍 Funciones del modal definidas y disponibles globalmente');
+
 document.addEventListener('DOMContentLoaded', function() {
     // ================================================================== */
     // Inicialización General
@@ -29,9 +88,25 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAI();
     
     // ================================================================== */
+    // Funcionalidad del Diagrama de Flujo Animado
+    // ================================================================== */
+    initializeFlowDiagram();
+    
+    // ================================================================== */
+    // Cargar testimonios dinámicamente
+    // ================================================================== */
+    // Pequeño delay para asegurar que el DOM esté completamente cargado
+    setTimeout(loadTestimonials, 100);
+    
+    // ================================================================== */
     // Actualizar año en el footer
     // ================================================================== */
     updateCurrentYear();
+    
+    // ================================================================== */
+    // Inicializar modal de políticas de privacidad
+    // ================================================================== */
+    initializeModal();
 });
 
 /**
@@ -433,6 +508,90 @@ function initializeAnimations() {
 }
 
 /**
+ * Inicializa la funcionalidad del diagrama de flujo animado MEJORADO
+ */
+function initializeFlowDiagram() {
+    const diagramContainer = document.querySelector('.mockup-container');
+    if (!diagramContainer) return;
+    
+    // Observer para activar animación cuando sea visible
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Activar animaciones secuenciales
+                const flowSteps = entry.target.querySelectorAll('.flow-step');
+                const flowLines = entry.target.querySelectorAll('.flow-line');
+                
+                // Animar círculos con efecto de activación más suave
+                flowSteps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.animationPlayState = 'running';
+                        step.classList.add('active');
+                        
+                        // Efecto de pulso sutil
+                        setTimeout(() => {
+                            step.style.filter = 'drop-shadow(0 6px 12px rgba(96, 165, 250, 0.3)) brightness(1.05)';
+                        }, 500);
+                        
+                        // Remover efectos después de la animación
+                        setTimeout(() => {
+                            step.classList.remove('active');
+                            step.style.filter = 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))';
+                        }, 2500);
+                    }, index * 400);
+                });
+                
+                // Animar líneas con efecto de dibujo más fluido
+                flowLines.forEach((line, index) => {
+                    setTimeout(() => {
+                        line.style.animationPlayState = 'running';
+                        
+                        // Efecto de brillo durante el dibujo
+                        setTimeout(() => {
+                            line.style.filter = 'drop-shadow(0 0 4px rgba(96, 165, 250, 0.3))';
+                        }, 1000);
+                        
+                        // Remover efecto de brillo
+                        setTimeout(() => {
+                            line.style.filter = 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.15))';
+                        }, 2000);
+                    }, (index + 1) * 400);
+                });
+                
+                // Efecto de brillo final
+                setTimeout(() => {
+                    diagramContainer.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.4), 0 0 20px rgba(37, 99, 235, 0.3)';
+                }, 2000);
+                
+                // Desconectar observer después de activar
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    observer.observe(diagramContainer);
+    
+    // Agregar interactividad a los círculos
+    const circles = diagramContainer.querySelectorAll('circle');
+    circles.forEach(circle => {
+        circle.addEventListener('mouseenter', function() {
+            this.style.filter = 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4)) brightness(1.2)';
+            this.style.transform = 'scale(1.1)';
+        });
+        
+        circle.addEventListener('mouseleave', function() {
+            this.style.filter = 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))';
+            this.style.transform = 'scale(1)';
+        });
+    });
+}
+
+/**
  * Actualiza el año actual en el footer
  */
 function updateCurrentYear() {
@@ -440,6 +599,109 @@ function updateCurrentYear() {
     if (yearElement) {
         yearElement.textContent = new Date().getFullYear();
     }
+}
+
+/**
+ * Carga testimonios dinámicamente desde el archivo JSON
+ */
+function loadTestimonials() {
+    console.log('🎯 Ejecutando loadTestimonials...');
+    
+    const testimonialsContainer = document.getElementById('testimonios-container');
+    console.log('🔍 Contenedor encontrado:', testimonialsContainer);
+    
+    if (!testimonialsContainer) {
+        console.error('❌ No se encontró el contenedor de testimonios');
+        return;
+    }
+    
+    // Cargar testimonios estáticos directamente (más confiable)
+    const testimonios = [
+        {
+            texto: "Redujimos el tiempo de aprobación de EPP de 2 días a 2 horas. La trazabilidad en SST es clave para nosotros, y con el flujo de Jotform logramos la evidencia perfecta para auditoría.",
+            nombre: "Rodrigo A.",
+            cargo: "Jefe de Operaciones | Sector Distribución Eléctrica"
+        },
+        {
+            texto: "Necesitábamos estandarizar el reporte de incidentes. Ahora es automático, con fotos y ubicación GPS, y notifica a HSE de inmediato. El equipo de TotalFix entendió rápido nuestro dolor.",
+            nombre: "Paula M.",
+            cargo: "Líder de HSE | Sector Industrial"
+        },
+        {
+            texto: "La automatización de nuestros procesos de monitoreo de calidad del agua y control de biomasa ha sido revolucionaria. Ahora tenemos trazabilidad completa en tiempo real y alertas automáticas que nos permiten tomar decisiones más rápidas y precisas en nuestros cultivos.",
+            nombre: "Pablo Rain",
+            cargo: "Gerente de Operaciones | Servicios Acuícolas PyV"
+        }
+    ];
+    
+    // Limpiar contenedor
+    testimonialsContainer.innerHTML = '';
+    
+    // Crear testimonios
+    testimonios.forEach((testimonio, index) => {
+        const testimonialElement = createTestimonialElement(testimonio, index);
+        testimonialsContainer.appendChild(testimonialElement);
+    });
+    
+    console.log(`✅ ${testimonios.length} testimonios cargados`);
+}
+
+/**
+ * Carga testimonios estáticos como fallback
+ */
+function loadStaticTestimonials() {
+    const testimonialsContainer = document.getElementById('testimonios-container');
+    
+    if (!testimonialsContainer) return;
+    
+    console.log('🔄 Cargando testimonios estáticos como fallback...');
+    
+    const staticTestimonials = [
+        {
+            texto: "Redujimos el tiempo de aprobación de EPP de 2 días a 2 horas. La trazabilidad en SST es clave para nosotros, y con el flujo de Jotform logramos la evidencia perfecta para auditoría.",
+            nombre: "Rodrigo A.",
+            cargo: "Jefe de Operaciones | Sector Distribución Eléctrica"
+        },
+        {
+            texto: "Necesitábamos estandarizar el reporte de incidentes. Ahora es automático, con fotos y ubicación GPS, y notifica a HSE de inmediato. El equipo de TotalFix entendió rápido nuestro dolor.",
+            nombre: "Paula M.",
+            cargo: "Líder de HSE | Sector Industrial"
+        },
+        {
+            texto: "La automatización de nuestros procesos de monitoreo de calidad del agua y control de biomasa ha sido revolucionaria. Ahora tenemos trazabilidad completa en tiempo real y alertas automáticas que nos permiten tomar decisiones más rápidas y precisas en nuestros cultivos.",
+            nombre: "Pablo Rain",
+            cargo: "Gerente de Operaciones | Servicios Acuícolas PyV"
+        }
+    ];
+    
+    testimonialsContainer.innerHTML = '';
+    
+    staticTestimonials.forEach((testimonio, index) => {
+        const testimonialElement = createTestimonialElement(testimonio, index);
+        testimonialsContainer.appendChild(testimonialElement);
+    });
+    
+    console.log('✅ Testimonios estáticos cargados como fallback');
+}
+
+/**
+ * Crea un elemento de testimonio dinámicamente
+ */
+function createTestimonialElement(testimonio, index) {
+    const blockquote = document.createElement('blockquote');
+    blockquote.className = 'testimonial-card';
+    blockquote.setAttribute('role', 'blockquote');
+    blockquote.style.animationDelay = `${(index + 1) * 0.1}s`;
+    
+    blockquote.innerHTML = `
+        <p>"${testimonio.texto}"</p>
+        <cite class="testimonial-author">
+            ${testimonio.nombre}
+            <span>${testimonio.cargo}</span>
+        </cite>
+    `;
+    
+    return blockquote;
 }
 
 /**
@@ -518,10 +780,68 @@ window.addEventListener('resize', Utils.debounce(function() {
 }, 250));
 
 // ================================================================== */
+// Event Listeners para el Modal (se ejecutan después del DOM)
+// ================================================================== */
+
+/**
+ * Inicializa los event listeners para el modal
+ */
+function initializeModal() {
+    // Cerrar modal al hacer clic fuera del contenido
+    document.addEventListener('click', function(event) {
+        const modal = document.getElementById('privacy-modal');
+        if (event.target === modal) {
+            cerrarModal();
+        }
+    });
+
+    // Cerrar modal con tecla Escape
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('privacy-modal');
+            if (modal && modal.style.display === 'flex') {
+                cerrarModal();
+            }
+        }
+    });
+
+    // Manejar navegación con teclado dentro del modal
+    document.addEventListener('keydown', function(event) {
+        const modal = document.getElementById('privacy-modal');
+        if (modal && modal.style.display === 'flex') {
+            // Si se presiona Tab en el último elemento, volver al primero
+            if (event.key === 'Tab') {
+                const focusableElements = modal.querySelectorAll(
+                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (event.shiftKey && document.activeElement === firstElement) {
+                    event.preventDefault();
+                    lastElement.focus();
+                } else if (!event.shiftKey && document.activeElement === lastElement) {
+                    event.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        }
+    });
+}
+
+// ================================================================== */
 // Exportar funciones para uso global
 // ================================================================== */
 window.TotalFix = {
     Utils,
     mostrarMensaje,
-    generateAutomationIdea
+    generateAutomationIdea,
+    loadTestimonials,
+    abrirModal,
+    cerrarModal
 };
+
+// Hacer loadTestimonials global para el botón de prueba
+window.loadTestimonials = loadTestimonials;
+
+// Las funciones ya están disponibles globalmente desde el inicio del archivo
