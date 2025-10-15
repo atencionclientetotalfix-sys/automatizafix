@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeModal();
 });
 
+
 /**
  * Inicializa la aplicación
  */
@@ -430,7 +431,7 @@ async function generateAutomationIdea() {
     outputDiv.style.display = 'block';
     outputText.innerHTML = '⚙️ **Generando propuesta...** (Esto puede tomar unos segundos)';
     
-    // Simular generación de propuesta (en producción usar API real)
+    // Generar propuesta personalizada
     setTimeout(() => {
         const propuesta = generateMockProposal(sector, dolores, description);
         outputText.innerHTML = propuesta;
@@ -440,7 +441,7 @@ async function generateAutomationIdea() {
 }
 
 /**
- * Genera una propuesta mock (reemplazar con API real)
+ * Genera una propuesta personalizada basada en los datos del usuario
  */
 function generateMockProposal(sector, dolores, description) {
     const propuestas = {

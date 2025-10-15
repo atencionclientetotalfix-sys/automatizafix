@@ -20,6 +20,7 @@ Landing page profesional para TotalFix, especializada en automatización de proc
 - **Validación Robusta** - Formularios con validación en tiempo real
 - **API REST** - Endpoints para integración
 - **Logging Completo** - Monitoreo de errores y actividad
+- **Despliegue en Vercel** - Serverless functions para máxima escalabilidad
 
 ### 🤖 **Funcionalidades Avanzadas**
 - **Generador de Propuestas IA** - Soluciones de automatización automáticas basadas en el contexto
@@ -92,13 +93,45 @@ Page_Automatizacion_JotForm/
 
 ## 🚀 Instalación y Configuración
 
-### **1. Clonar el Repositorio**
+### **Opción 1: Despliegue en Vercel (Recomendado)**
+
+#### **1. Preparar el Proyecto**
 ```bash
+# Clonar el repositorio
 git clone https://github.com/totalfix/landing-page.git
 cd landing-page
+
+# El proyecto ya está configurado para Vercel
+# Solo necesitas configurar las variables de entorno
 ```
 
-### **2. Configurar Frontend (Estático)**
+#### **2. Configurar Variables de Entorno en Vercel**
+1. **Generar App Password de Gmail**:
+   - Lee el archivo `GMAIL_SETUP.md` para instrucciones detalladas
+   - Activa 2FA en tu cuenta Gmail
+   - Genera una App Password de 16 caracteres
+
+2. **Configurar en Vercel Dashboard**:
+   - Ve a tu proyecto en Vercel
+   - Settings → Environment Variables
+   - Agrega:
+     ```
+     GMAIL_USER = atencioncliente.totalfix@gmail.com
+     GMAIL_APP_PASSWORD = [tu_app_password_de_16_caracteres]
+     ```
+
+#### **3. Desplegar en Vercel**
+```bash
+# Conectar con Vercel
+npx vercel
+
+# O conectar desde GitHub para deploy automático
+# En Vercel Dashboard → Import Project → GitHub
+```
+
+### **Opción 2: Desarrollo Local**
+
+#### **1. Configurar Frontend (Estático)**
 ```bash
 # Opción 1: Servidor Python simple
 python -m http.server 8000
@@ -111,7 +144,7 @@ live-server --port=8000
 # Simplemente abre index.html en tu navegador
 ```
 
-### **3. Configurar Backend (Python)**
+#### **2. Configurar Backend (Python)**
 ```bash
 # Instalar dependencias
 cd backend
@@ -125,7 +158,7 @@ cp env.example .env
 python scripts/email_handler.py
 ```
 
-### **4. Configurar Gmail para Correos**
+#### **3. Configurar Gmail para Correos**
 1. **Activar 2FA** en tu cuenta de Gmail
 2. **Generar App Password**:
    - Ve a Google Account → Security → 2-Step Verification
@@ -136,20 +169,56 @@ python scripts/email_handler.py
    GMAIL_APP_PASSWORD=tu_app_password_aqui
    ```
 
-## 🔧 Configuración de Variables
+## 📧 Sistema de Notificaciones por Correo
 
-### **Variables de Entorno Requeridas**
+### **Flujo de Correos Configurado**
+
+#### **Correo a Total Fix:**
+- **Destinatario:** atencioncliente.totalfix@gmail.com
+- **Asunto:** 🔧 Nueva Consulta: [Nombre] - [Empresa]
+- **Contenido:** 
+  - Información completa del cliente
+  - Desafíos de productividad seleccionados
+  - Descripción del problema
+  - Timestamp de la consulta
+
+#### **Correo al Usuario:**
+- **Destinatario:** Email ingresado en el formulario
+- **Asunto:** ✅ Confirmación de Consulta - TotalFix
+- **Contenido:**
+  - Confirmación de recepción
+  - Próximos pasos esperados
+  - Información de contacto directo
+  - Tiempo estimado de respuesta (4 horas hábiles)
+
+### **Configuración de Variables**
+
+#### **Variables de Entorno Requeridas (Vercel)**
+```env
+# Gmail Configuration (REQUERIDO)
+GMAIL_USER=atencioncliente.totalfix@gmail.com
+GMAIL_APP_PASSWORD=tu_app_password_de_16_caracteres
+
+# Flask Configuration (OPCIONAL)
+FLASK_ENV=production
+SECRET_KEY=tu_secret_key_muy_seguro
+
+# CORS Configuration (OPCIONAL)
+CORS_ORIGINS=https://www.totalfix.cl,https://totalfix.cl
+```
+
+#### **Variables de Entorno para Desarrollo Local**
 ```env
 # Gmail Configuration
 GMAIL_USER=atencioncliente.totalfix@gmail.com
 GMAIL_APP_PASSWORD=tu_app_password_de_gmail
 
 # Flask Configuration
-FLASK_ENV=production
+FLASK_ENV=development
 SECRET_KEY=tu_secret_key_muy_seguro
 
 # CORS Configuration
-CORS_ORIGINS=https://www.totalfix.cl,https://totalfix.cl
+CORS_ORIGINS=http://localhost:3000,https://www.totalfix.cl
 ```
 
 ### **Configuración de Contacto**
