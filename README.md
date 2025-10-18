@@ -470,3 +470,6 @@ MIT License - Ver archivo LICENSE para más detalles.
 
 *Automatización de Flujos de Trabajo y Optimización de Productividad Empresarial en Chile*
 
+---
+*Última actualización: $(date) - Deploy activado*
+
