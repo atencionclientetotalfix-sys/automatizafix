@@ -8,8 +8,7 @@
     "dev": "python -m http.server 8000",
     "build": "echo 'No build process needed for static site'",
     "test": "echo 'No tests configured yet'",
-    "backend": "cd backend/scripts && python email_handler.py",
-    "install-backend": "cd backend && pip install -r requirements.txt"
+    "deploy": "vercel --prod"
   },
   "keywords": [
     "landing-page",
