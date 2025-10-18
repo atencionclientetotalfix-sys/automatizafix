@@ -75,18 +75,16 @@ Page_Automatizacion_JotForm/
 │   │   ├── README_VIDEOS.md     # Instrucciones para videos
 │   │   ├── INSTRUCCIONES_VIDEOS.md # Guía técnica de videos
 │   │   ├── demo-sst.mp4         # Video demostrativo SST
-│   │   ├── demo-operaciones.mp4 # Video demostrativo operaciones
-│   │   └── video*-poster.jpg    # Imágenes poster de videos
+│   │   ├── demo-flujo.mp4       # Video demostrativo operaciones
+│   │   └── logo-totalfix.png    # Logo de la empresa
+│   ├── 📁 data/
+│   │   ├── testimonios.json     # Testimonios dinámicos
+│   │   └── README_TESTIMONIOS.md # Guía de testimonios
 │   └── 📁 icons/                # Iconos SVG
-├── 📁 backend/
-│   ├── 📁 scripts/
-│   │   └── email_handler.py     # Sistema de correos
-│   ├── requirements.txt         # Dependencias Python
-│   └── env.example              # Variables de entorno
-├── 📁 supabase/
-│   └── 📁 migrations/
-│       └── 001_initial_schema.sql
-├── 📄 package.json              # Configuración Node.js
+├── 📁 api/
+│   └── 📄 enviar-consulta.py     # API serverless para correos
+├── 📄 vercel.json              # Configuración Vercel
+├── 📄 package.json             # Configuración Node.js
 ├── 📄 .gitignore               # Archivos a ignorar
 └── 📄 README.md                # Este archivo
 ```
@@ -128,6 +126,11 @@ npx vercel
 # O conectar desde GitHub para deploy automático
 # En Vercel Dashboard → Import Project → GitHub
 ```
+
+#### **4. Verificar Funcionamiento**
+- El formulario enviará correos automáticamente
+- No se requiere base de datos (solo correos)
+- Sistema completamente serverless
 
 ### **Opción 2: Desarrollo Local**
 
