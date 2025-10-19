@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "automatizafix",
+  "outputDirectory": ".",
   "rewrites": [
     {
       "source": "/api/enviar-consulta",
