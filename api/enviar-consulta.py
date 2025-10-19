@@ -283,59 +283,45 @@ class AutomatizafixEmailHandler:
         return re.match(pattern, email) is not None
 
 # ================================================================== */
-# Función Serverless para Vercel
+# Función Serverless para Vercel - Handler Python Puro
 # ================================================================== */
 
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from http.server import BaseHTTPRequestHandler
+import json
 
-app = Flask(__name__)
-CORS(app)
-
-@app.route('/api/enviar-consulta', methods=['POST', 'OPTIONS'])
-def enviar_consulta():
-    """
-    Endpoint para enviar consultas de automatización
-    """
-    try:
-        # Manejar preflight OPTIONS
-        if request.method == 'OPTIONS':
-            return jsonify({'message': 'OK'}), 200
-        
-        # Solo permitir POST
-        if request.method != 'POST':
-            return jsonify({
-                'success': False,
-                'error': 'Método no permitido'
-            }), 405
-        
-        # Obtener datos del request
-        datos = request.get_json()
-        
-        if not datos:
-            return jsonify({
-                'success': False,
-                'error': 'No se recibieron datos'
-            }), 400
-        
-        # Crear manejador de correos
-        email_handler = AutomatizafixEmailHandler()
-        
-        # Procesar consulta
-        resultado = email_handler.procesar_consulta(datos)
-        
-        if resultado['success']:
-            return jsonify(resultado), 200
-        else:
-            return jsonify(resultado), 400
+class handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        """Manejar peticiones OPTIONS para CORS"""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+    
+    def do_POST(self):
+        """Manejar peticiones POST para enviar consultas"""
+        try:
+            # Obtener datos del request
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            datos = json.loads(post_data.decode('utf-8'))
             
-    except Exception as e:
-        logger.error(f"Error en función serverless: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': 'Error interno del servidor'
-        }), 500
-
-# Para Vercel
-def handler(request):
-    return app(request.environ, lambda *args: None)
+            # Crear manejador de correos
+            email_handler = AutomatizafixEmailHandler()
+            resultado = email_handler.procesar_consulta(datos)
+            
+            # Enviar respuesta
+            self.send_response(200 if resultado['success'] else 400)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps(resultado).encode('utf-8'))
+            
+        except Exception as e:
+            logger.error(f"Error en función serverless: {str(e)}")
+            self.send_response(500)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            error_response = {'success': False, 'error': str(e)}
+            self.wfile.write(json.dumps(error_response).encode('utf-8'))
