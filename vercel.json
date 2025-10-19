@@ -7,6 +7,16 @@
       "use": "@vercel/python"
     }
   ],
+  "routes": [
+    {
+      "src": "/api/enviar-consulta",
+      "dest": "/api/enviar-consulta"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
   "env": {
     "PYTHON_VERSION": "3.9"
   },
