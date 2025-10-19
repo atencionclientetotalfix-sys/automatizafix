@@ -1,20 +1,10 @@
 {
   "version": 2,
   "name": "automatizafix",
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/enviar-consulta.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/enviar-consulta",
-      "dest": "/api/enviar-consulta.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/api/enviar-consulta",
+      "destination": "/api/enviar-consulta.py"
     }
   ],
   "functions": {
