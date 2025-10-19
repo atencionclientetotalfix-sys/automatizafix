@@ -1,15 +1,16 @@
 {
   "version": 2,
   "name": "automatizafix",
+  "builds": [
+    {
+      "src": "api/enviar-consulta.py",
+      "use": "@vercel/python"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/enviar-consulta",
       "destination": "/api/enviar-consulta.py"
     }
-  ],
-  "functions": {
-    "api/enviar-consulta.py": {
-      "runtime": "python3.9"
-    }
-  }
+  ]
 }
