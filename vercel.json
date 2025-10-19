@@ -3,7 +3,7 @@
   "name": "automatizafix",
   "functions": {
     "api/enviar-consulta.py": {
-      "runtime": "python3.9"
+      "runtime": "@vercel/python"
     }
   },
   "rewrites": [
