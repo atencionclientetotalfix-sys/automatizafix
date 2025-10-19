@@ -460,6 +460,44 @@ CORS(app, origins=["https://www.totalfix.cl"])
 - ✅ **Efectos de pulso mejorados** - Interactividad más sofisticada
 - ✅ **Conexiones naturales** - Flujo del PDF Auto con curvas más orgánicas
 
+## 🔧 **Correcciones de Despliegue (Enero 2025)**
+
+### ✅ **Problema 404 Resuelto**
+- **vercel.json corregido** - Cambiado de `rewrites` a `routes` para mejor compatibilidad
+- **requirements.txt agregado** - Dependencias Python especificadas correctamente
+- **Enrutamiento optimizado** - Configuración de rutas para API y frontend
+- **Headers CORS mejorados** - Configuración de seguridad actualizada
+
+### 🚀 **Configuración Vercel Optimizada**
+```json
+{
+  "version": 2,
+  "name": "automatizafix",
+  "builds": [
+    {
+      "src": "api/enviar-consulta.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/enviar-consulta",
+      "dest": "/api/enviar-consulta.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+```
+
+### 📦 **Dependencias Python**
+```txt
+flask==2.3.3
+requests==2.31.0
+```
+
 ## 📄 Licencia
 
 MIT License - Ver archivo LICENSE para más detalles.
@@ -471,5 +509,5 @@ MIT License - Ver archivo LICENSE para más detalles.
 *Automatización de Flujos de Trabajo y Optimización de Productividad Empresarial en Chile*
 
 ---
-*Última actualización: $(date) - Deploy activado*
+*Última actualización: Enero 2025 - Error 404 corregido*
 

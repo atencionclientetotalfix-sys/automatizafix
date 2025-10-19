@@ -7,10 +7,14 @@
       "use": "@vercel/python"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/enviar-consulta",
-      "destination": "/api/enviar-consulta"
+      "src": "/api/enviar-consulta",
+      "dest": "/api/enviar-consulta.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "env": {
