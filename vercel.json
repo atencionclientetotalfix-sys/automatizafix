@@ -5,12 +5,20 @@
     {
       "src": "api/enviar-consulta.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/api/enviar-consulta",
       "dest": "/api/enviar-consulta.py"
+    },
+    {
+      "src": "/api/",
+      "dest": "/api/index.py"
     },
     {
       "src": "/(.*)",

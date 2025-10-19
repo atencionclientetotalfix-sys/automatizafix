@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Automatizafix - Función Serverless para Vercel
+Automatizafix - Función Serverless para Vercel (Backup)
 Sistema de notificaciones por correo para consultas de automatización
 """
 
@@ -127,78 +127,13 @@ class AutomatizafixEmailHandler:
         
         return html_content
     
-    def crear_correo_usuario(self, datos_formulario: Dict) -> str:
-        """Crea el correo de confirmación para el usuario"""
-        
-        html_content = f"""
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Confirmación de Consulta - TotalFix</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background: linear-gradient(135deg, #2563eb, #1e40af); color: white; padding: 20px; border-radius: 8px 8px 0 0; text-align: center; }}
-                .content {{ background: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px; }}
-                .success {{ background: #d1fae5; padding: 15px; border-radius: 5px; border-left: 4px solid #10b981; margin: 15px 0; }}
-                .next-steps {{ background: #e0f2fe; padding: 15px; border-radius: 5px; margin: 15px 0; }}
-                .contact {{ background: #fef3c7; padding: 15px; border-radius: 5px; margin: 15px 0; }}
-                .footer {{ margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 0.9em; color: #6b7280; text-align: center; }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h2>✅ ¡Consulta Recibida!</h2>
-                    <p>Automatizafix - Automatización SST & Productividad</p>
-                </div>
-                
-                <div class="content">
-                    <div class="success">
-                        <h3>🎉 ¡Gracias por tu interés en Automatizafix!</h3>
-                        <p>Hemos recibido tu consulta sobre automatización de procesos SST y productividad. Nuestro equipo de expertos revisará tu solicitud y te contactará dentro de las próximas 4 horas hábiles.</p>
-                    </div>
-                    
-                    <div class="next-steps">
-                        <h3>📋 Próximos Pasos:</h3>
-                        <ul>
-                            <li>📞 <strong>Llamada de diagnóstico</strong> (30 minutos sin costo)</li>
-                            <li>🔍 <strong>Análisis de tus procesos</strong> actuales</li>
-                            <li>💡 <strong>Propuesta personalizada</strong> de automatización</li>
-                            <li>📊 <strong>Estimación de ROI</strong> y tiempos de implementación</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="contact">
-                        <h3>📞 ¿Necesitas contactarnos antes?</h3>
-                        <p><strong>WhatsApp:</strong> <a href="https://wa.me/56961932656">+56 9 6193 2656</a></p>
-                        <p><strong>Email:</strong> <a href="mailto:atencioncliente.totalfix@gmail.com">atencioncliente.totalfix@gmail.com</a></p>
-                    </div>
-                    
-                    <div class="footer">
-                        <p><strong>Automatizafix</strong> - Automatización de Procesos SST y Productividad</p>
-                        <p>Puerto Montt, Chile | <a href="https://automatizafix.vercel.app">automatizafix.vercel.app</a></p>
-                    </div>
-                </div>
-            </div>
-        </body>
-        </html>
-        """
-        
-        return html_content
-    
     def enviar_correo_consulta(self, datos_formulario: Dict) -> bool:
-        """
-        Envía correo al contacto de TotalFix y copia al usuario
-        """
+        """Envía correo al contacto de TotalFix"""
         try:
             # Crear mensaje principal para TotalFix
             msg_principal = MIMEMultipart('alternative')
             msg_principal['From'] = self.gmail_user
             msg_principal['To'] = self.gmail_user  # TotalFix
-            msg_principal['Cc'] = datos_formulario.get('email', '')  # Usuario
             msg_principal['Subject'] = f"🔧 Nueva Consulta: {datos_formulario.get('nombre', 'Cliente')} - {datos_formulario.get('empresa', 'Empresa')}"
             
             # Crear contenido
@@ -206,41 +141,23 @@ class AutomatizafixEmailHandler:
             html_part = MIMEText(html_content, 'html', 'utf-8')
             msg_principal.attach(html_part)
             
-            # Crear mensaje de confirmación para el usuario
-            msg_usuario = MIMEMultipart('alternative')
-            msg_usuario['From'] = self.gmail_user
-            msg_usuario['To'] = datos_formulario.get('email', '')
-            msg_usuario['Subject'] = "✅ Confirmación de Consulta - TotalFix"
-            
-            html_usuario = self.crear_correo_usuario(datos_formulario)
-            html_part_usuario = MIMEText(html_usuario, 'html', 'utf-8')
-            msg_usuario.attach(html_part_usuario)
-            
             # Configurar servidor SMTP
             context = ssl.create_default_context()
             
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
                 server.starttls(context=context)
                 server.login(self.gmail_user, self.gmail_password)
-                
-                # Enviar correo principal a TotalFix
                 server.send_message(msg_principal)
-                logger.info(f"Correo principal enviado a TotalFix para {datos_formulario.get('nombre')}")
-                
-                # Enviar correo de confirmación al usuario
-                server.send_message(msg_usuario)
-                logger.info(f"Correo de confirmación enviado a {datos_formulario.get('email')}")
+                logger.info(f"Correo enviado a TotalFix para {datos_formulario.get('nombre')}")
                 
             return True
             
         except Exception as e:
-            logger.error(f"Error al enviar correos: {str(e)}")
+            logger.error(f"Error al enviar correo: {str(e)}")
             return False
     
     def procesar_consulta(self, datos_formulario: Dict) -> Dict:
-        """
-        Procesa una consulta completa
-        """
+        """Procesa una consulta completa"""
         try:
             # Validar datos requeridos
             campos_requeridos = ['nombre', 'empresa', 'email', 'telefono', 'sector']
@@ -251,14 +168,7 @@ class AutomatizafixEmailHandler:
                         'error': f'Campo requerido faltante: {campo}'
                     }
             
-            # Validar email
-            if not self.validar_email(datos_formulario.get('email')):
-                return {
-                    'success': False,
-                    'error': 'Email inválido'
-                }
-            
-            # Enviar correos
+            # Enviar correo
             if self.enviar_correo_consulta(datos_formulario):
                 return {
                     'success': True,
@@ -267,7 +177,7 @@ class AutomatizafixEmailHandler:
             else:
                 return {
                     'success': False,
-                    'error': 'Error al enviar correos'
+                    'error': 'Error al enviar correo'
                 }
                 
         except Exception as e:
@@ -276,22 +186,17 @@ class AutomatizafixEmailHandler:
                 'success': False,
                 'error': f'Error interno: {str(e)}'
             }
-    
-    def validar_email(self, email: str) -> bool:
-        """Valida formato de email"""
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        return re.match(pattern, email) is not None
 
 # ================================================================== */
-# Función Serverless para Vercel - Handler Python Puro
+# Función Serverless para Vercel - Handler Simplificado
 # ================================================================== */
 
 def handler(request):
     """
-    Handler nativo de Vercel para Python
+    Handler simplificado para Vercel
     """
     try:
-        # Configurar headers CORS
+        # Headers CORS
         headers = {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -322,8 +227,7 @@ def handler(request):
         try:
             datos = request.get_json()
         except:
-            # Fallback para datos de formulario
-            datos = request.form.to_dict() if hasattr(request, 'form') else {}
+            datos = {}
         
         if not datos:
             return {
