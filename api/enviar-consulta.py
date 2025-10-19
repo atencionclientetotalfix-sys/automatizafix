@@ -286,52 +286,37 @@ class AutomatizafixEmailHandler:
 # Función Serverless para Vercel
 # ================================================================== */
 
-def handler(request):
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/enviar-consulta', methods=['POST', 'OPTIONS'])
+def enviar_consulta():
     """
-    Función serverless para Vercel
-    Maneja las consultas del formulario de contacto
+    Endpoint para enviar consultas de automatización
     """
     try:
-        # Configurar CORS headers
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type': 'application/json'
-        }
-    
-    # Manejar preflight OPTIONS
-    if request.method == 'OPTIONS':
-        return {
-            'statusCode': 200,
-            'headers': headers,
-            'body': json.dumps({'message': 'OK'})
-        }
-    
-    # Solo permitir POST
-    if request.method != 'POST':
-        return {
-            'statusCode': 405,
-            'headers': headers,
-            'body': json.dumps({
+        # Manejar preflight OPTIONS
+        if request.method == 'OPTIONS':
+            return jsonify({'message': 'OK'}), 200
+        
+        # Solo permitir POST
+        if request.method != 'POST':
+            return jsonify({
                 'success': False,
                 'error': 'Método no permitido'
-            })
-        }
-    
-    try:
+            }), 405
+        
         # Obtener datos del request
         datos = request.get_json()
         
         if not datos:
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps({
-                    'success': False,
-                    'error': 'No se recibieron datos'
-                })
-            }
+            return jsonify({
+                'success': False,
+                'error': 'No se recibieron datos'
+            }), 400
         
         # Crear manejador de correos
         email_handler = AutomatizafixEmailHandler()
@@ -340,36 +325,17 @@ def handler(request):
         resultado = email_handler.procesar_consulta(datos)
         
         if resultado['success']:
-            return {
-                'statusCode': 200,
-                'headers': headers,
-                'body': json.dumps(resultado)
-            }
+            return jsonify(resultado), 200
         else:
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps(resultado)
-            }
+            return jsonify(resultado), 400
             
     except Exception as e:
         logger.error(f"Error en función serverless: {str(e)}")
-        return {
-            'statusCode': 500,
-            'headers': headers,
-            'body': json.dumps({
-                'success': False,
-                'error': 'Error interno del servidor'
-            })
-        }
-        
-    except Exception as e:
-        logger.error(f"Error general en handler: {str(e)}")
-        return {
-            'statusCode': 500,
-            'headers': headers,
-            'body': json.dumps({
-                'success': False,
-                'error': 'Error interno del servidor'
-            })
-        }
+        return jsonify({
+            'success': False,
+            'error': 'Error interno del servidor'
+        }), 500
+
+# Para Vercel
+def handler(request):
+    return app(request.environ, lambda *args: None)

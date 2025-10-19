@@ -1,3 +1,3 @@
 # Dependencias para Automatizafix - Función Serverless
-# No se requieren dependencias adicionales para el envío de correos
-# Las librerías smtplib, email, json, logging, datetime, ssl, re son parte de la librería estándar de Python
+flask==2.3.3
+flask-cors==4.0.0
