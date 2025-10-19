@@ -463,10 +463,11 @@ CORS(app, origins=["https://www.totalfix.cl"])
 ## 🔧 **Correcciones de Despliegue (Enero 2025)**
 
 ### ✅ **Problema 404 Resuelto**
-- **vercel.json corregido** - Cambiado de `rewrites` a `routes` para mejor compatibilidad
+- **vercel.json corregido** - Cambiado de `routes` a `rewrites` para mejor compatibilidad con Vercel
 - **requirements.txt agregado** - Dependencias Python especificadas correctamente
-- **Enrutamiento optimizado** - Configuración de rutas para API y frontend
+- **Enrutamiento optimizado** - Configuración de rewrites para API y frontend
 - **Headers CORS mejorados** - Configuración de seguridad actualizada
+- **Archivo api/index.py eliminado** - Removido archivo innecesario que causaba conflictos
 
 ### ✅ **Problemas de Logo y Formulario Solucionados**
 - **Logo corregido** - Cambiado de URL de GitHub a ruta local `assets/images/logo-totalfix.png`
@@ -485,14 +486,14 @@ CORS(app, origins=["https://www.totalfix.cl"])
       "use": "@vercel/python"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/enviar-consulta",
-      "dest": "/api/enviar-consulta.py"
+      "source": "/api/enviar-consulta",
+      "destination": "/api/enviar-consulta.py"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
