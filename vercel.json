@@ -10,11 +10,11 @@
   "routes": [
     {
       "src": "/api/enviar-consulta",
-      "dest": "/api/enviar-consulta"
+      "dest": "api/enviar-consulta.py"
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ],
   "env": {
