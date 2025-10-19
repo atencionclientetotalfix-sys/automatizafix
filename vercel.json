@@ -3,19 +3,32 @@
   "name": "automatizafix",
   "builds": [
     {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "assets/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "api/enviar-consulta.py",
       "use": "@vercel/python"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/enviar-consulta",
-      "destination": "/api/enviar-consulta"
+      "src": "/api/enviar-consulta",
+      "dest": "/api/enviar-consulta.py"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
-  "env": {
-    "PYTHON_VERSION": "3.9"
-  },
   "headers": [
     {
       "source": "/api/(.*)",
@@ -31,23 +44,6 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
         }
       ]
     }
