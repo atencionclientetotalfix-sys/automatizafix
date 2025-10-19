@@ -1,23 +1,3 @@
 # Dependencias para Automatizafix - Función Serverless
-# Sistema de notificaciones por correo para Vercel
-
-# Dependencias principales
-flask==2.3.3
-requests==2.31.0
-
-# Dependencias de email (incluidas en Python estándar)
-# smtplib - incluido en Python estándar
-# email - incluido en Python estándar
-# ssl - incluido en Python estándar
-
-# Dependencias de logging (incluidas en Python estándar)
-# logging - incluido en Python estándar
-# datetime - incluido en Python estándar
-# typing - incluido en Python estándar
-# re - incluido en Python estándar
-# json - incluido en Python estándar
-# os - incluido en Python estándar
-
-# Dependencias opcionales para mejoras futuras
-# python-dotenv==1.0.0  # Para manejo de variables de entorno locales
-# jinja2==3.1.2         # Para plantillas de email más avanzadas
+# No se requieren dependencias adicionales para el envío de correos
+# Las librerías smtplib, email, json, logging, datetime, ssl, re son parte de la librería estándar de Python

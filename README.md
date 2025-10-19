@@ -468,6 +468,12 @@ CORS(app, origins=["https://www.totalfix.cl"])
 - **Enrutamiento optimizado** - Configuración de rutas para API y frontend
 - **Headers CORS mejorados** - Configuración de seguridad actualizada
 
+### ✅ **Problemas de Logo y Formulario Solucionados**
+- **Logo corregido** - Cambiado de URL de GitHub a ruta local `assets/images/logo-totalfix.png`
+- **API Python optimizada** - Función serverless compatible con Vercel
+- **Formulario funcionando** - Endpoint `/api/enviar-consulta` operativo
+- **Variables de entorno** - Configuración Gmail requerida para envío de correos
+
 ### 🚀 **Configuración Vercel Optimizada**
 ```json
 {

@@ -3,14 +3,6 @@
   "name": "automatizafix",
   "builds": [
     {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "assets/**",
-      "use": "@vercel/static"
-    },
-    {
       "src": "api/enviar-consulta.py",
       "use": "@vercel/python"
     }
@@ -21,12 +13,13 @@
       "dest": "/api/enviar-consulta.py"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/enviar-consulta.py": {
+      "runtime": "python3.9"
+    }
+  }
 }
