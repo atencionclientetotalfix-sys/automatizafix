@@ -286,42 +286,77 @@ class AutomatizafixEmailHandler:
 # Función Serverless para Vercel - Handler Python Puro
 # ================================================================== */
 
-from http.server import BaseHTTPRequestHandler
-import json
-
-class handler(BaseHTTPRequestHandler):
-    def do_OPTIONS(self):
-        """Manejar peticiones OPTIONS para CORS"""
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-        self.end_headers()
-    
-    def do_POST(self):
-        """Manejar peticiones POST para enviar consultas"""
-        try:
-            # Obtener datos del request
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
-            datos = json.loads(post_data.decode('utf-8'))
+def handler(request):
+    """
+    Handler nativo de Vercel para Python
+    """
+    try:
+        # Configurar headers CORS
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Content-Type': 'application/json'
+        }
+        
+        # Manejar preflight OPTIONS
+        if request.method == 'OPTIONS':
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': json.dumps({'message': 'OK'})
+            }
+        
+        # Solo permitir POST
+        if request.method != 'POST':
+            return {
+                'statusCode': 405,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Método no permitido'
+                })
+            }
+        
+        # Obtener datos del request
+        datos = request.get_json()
+        
+        if not datos:
+            return {
+                'statusCode': 400,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'No se recibieron datos'
+                })
+            }
+        
+        # Crear manejador de correos
+        email_handler = AutomatizafixEmailHandler()
+        
+        # Procesar consulta
+        resultado = email_handler.procesar_consulta(datos)
+        
+        if resultado['success']:
+            return {
+                'statusCode': 200,
+                'headers': headers,
+                'body': json.dumps(resultado)
+            }
+        else:
+            return {
+                'statusCode': 400,
+                'headers': headers,
+                'body': json.dumps(resultado)
+            }
             
-            # Crear manejador de correos
-            email_handler = AutomatizafixEmailHandler()
-            resultado = email_handler.procesar_consulta(datos)
-            
-            # Enviar respuesta
-            self.send_response(200 if resultado['success'] else 400)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(json.dumps(resultado).encode('utf-8'))
-            
-        except Exception as e:
-            logger.error(f"Error en función serverless: {str(e)}")
-            self.send_response(500)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            error_response = {'success': False, 'error': str(e)}
-            self.wfile.write(json.dumps(error_response).encode('utf-8'))
+    except Exception as e:
+        logger.error(f"Error en función serverless: {str(e)}")
+        return {
+            'statusCode': 500,
+            'headers': headers,
+            'body': json.dumps({
+                'success': False,
+                'error': 'Error interno del servidor'
+            })
+        }
