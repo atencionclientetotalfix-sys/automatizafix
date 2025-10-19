@@ -1,0 +1,10 @@
+# Archivos a ignorar en el despliegue de Vercel
+node_modules/
+.git/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+.DS_Store
+Thumbs.db
