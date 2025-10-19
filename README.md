@@ -1,8 +1,8 @@
-# 🚀 TotalFix Landing Page
+# 🚀 Automatizafix - Landing Page
 
 **Automatización de Flujos de Trabajo y Optimización de Productividad Empresarial**
 
-Landing page profesional para TotalFix, especializada en automatización de procesos empresariales, optimización de productividad y eliminación de tareas repetitivas utilizando tecnología avanzada.
+Landing page profesional para Automatizafix, especializada en automatización de procesos empresariales, optimización de productividad y eliminación de tareas repetitivas utilizando tecnología avanzada con Jotform.
 
 ## 📋 Características Principales
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-TotalFix - Función Serverless para Vercel
+Automatizafix - Función Serverless para Vercel
 Sistema de notificaciones por correo para consultas de automatización
 """
 
@@ -22,8 +22,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-class TotalFixEmailHandler:
-    """Manejador de correos para TotalFix - Versión Serverless"""
+class AutomatizafixEmailHandler:
+    """Manejador de correos para Automatizafix - Versión Serverless"""
     
     def __init__(self):
         self.gmail_user = os.getenv("GMAIL_USER", "atencioncliente.totalfix@gmail.com")
@@ -36,7 +36,7 @@ class TotalFixEmailHandler:
             raise ValueError("GMAIL_APP_PASSWORD es requerido")
     
     def crear_plantilla_correo(self, datos_formulario: Dict) -> str:
-        """Crea la plantilla HTML del correo para TotalFix"""
+        """Crea la plantilla HTML del correo para Automatizafix"""
         
         # Procesar dolores seleccionados
         dolores_texto = ", ".join(datos_formulario.get('dolores', [])) if datos_formulario.get('dolores') else "No especificados"
@@ -65,7 +65,7 @@ class TotalFixEmailHandler:
         <body>
             <div class="container">
                 <div class="header">
-                    <h2>🔧 Nueva Consulta TotalFix</h2>
+                    <h2>🔧 Nueva Consulta Automatizafix</h2>
                     <p>Automatización SST & Productividad con Jotform</p>
                 </div>
                 
@@ -116,8 +116,8 @@ class TotalFixEmailHandler:
                     
                     <div class="footer">
                         <p><strong>📅 Fecha de consulta:</strong> {datetime.now().strftime('%d/%m/%Y %H:%M')}</p>
-                        <p><strong>🔗 Fuente:</strong> Landing Page TotalFix</p>
-                        <p><em>Este correo fue generado automáticamente desde el formulario de contacto de TotalFix.</em></p>
+                        <p><strong>🔗 Fuente:</strong> Landing Page Automatizafix</p>
+                        <p><em>Este correo fue generado automáticamente desde el formulario de contacto de Automatizafix.</em></p>
                     </div>
                 </div>
             </div>
@@ -152,12 +152,12 @@ class TotalFixEmailHandler:
             <div class="container">
                 <div class="header">
                     <h2>✅ ¡Consulta Recibida!</h2>
-                    <p>TotalFix - Automatización SST & Productividad</p>
+                    <p>Automatizafix - Automatización SST & Productividad</p>
                 </div>
                 
                 <div class="content">
                     <div class="success">
-                        <h3>🎉 ¡Gracias por tu interés en TotalFix!</h3>
+                        <h3>🎉 ¡Gracias por tu interés en Automatizafix!</h3>
                         <p>Hemos recibido tu consulta sobre automatización de procesos SST y productividad. Nuestro equipo de expertos revisará tu solicitud y te contactará dentro de las próximas 4 horas hábiles.</p>
                     </div>
                     
@@ -178,8 +178,8 @@ class TotalFixEmailHandler:
                     </div>
                     
                     <div class="footer">
-                        <p><strong>TotalFix</strong> - Automatización de Procesos SST y Productividad</p>
-                        <p>Puerto Montt, Chile | <a href="https://www.totalfix.cl">www.totalfix.cl</a></p>
+                        <p><strong>Automatizafix</strong> - Automatización de Procesos SST y Productividad</p>
+                        <p>Puerto Montt, Chile | <a href="https://automatizafix.vercel.app">automatizafix.vercel.app</a></p>
                     </div>
                 </div>
             </div>
@@ -334,7 +334,7 @@ def handler(request):
             }
         
         # Crear manejador de correos
-        email_handler = TotalFixEmailHandler()
+        email_handler = AutomatizafixEmailHandler()
         
         # Procesar consulta
         resultado = email_handler.procesar_consulta(datos)

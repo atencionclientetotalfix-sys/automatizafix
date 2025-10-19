@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * Inicializa la aplicación
  */
 function initializeApp() {
-    console.log('🚀 TotalFix Landing Page inicializada');
+    console.log('🚀 Automatizafix Landing Page inicializada');
     
     // Agregar clase de carga completada al body
     document.body.classList.add('loaded');
@@ -833,7 +833,7 @@ function initializeModal() {
 // ================================================================== */
 // Exportar funciones para uso global
 // ================================================================== */
-window.TotalFix = {
+window.Automatizafix = {
     Utils,
     mostrarMensaje,
     generateAutomationIdea,

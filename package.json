@@ -1,28 +1,31 @@
 {
-  "name": "totalfix-landing-page",
-  "version": "1.0.0",
-  "description": "Landing page para TotalFix - Automatización SST & Productividad con Jotform",
+  "name": "automatizafix",
+  "version": "2.0.0",
+  "description": "Automatizafix - Landing page para automatización de procesos empresariales con Jotform",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",
     "dev": "python -m http.server 8000",
     "build": "echo 'No build process needed for static site'",
     "test": "echo 'No tests configured yet'",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "vercel-build": "echo 'Build completed'"
   },
   "keywords": [
     "landing-page",
-    "totalfix",
+    "automatizafix",
     "automatizacion",
     "sst",
     "jotform",
-    "chile"
+    "chile",
+    "productividad",
+    "flujos-trabajo"
   ],
-  "author": "TotalFix",
+  "author": "Automatizafix",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/totalfix/landing-page"
+    "url": "https://github.com/automatizafix/automatizafix.git"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
