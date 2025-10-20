@@ -288,7 +288,7 @@ class AutomatizafixEmailHandler:
 
 def handler(request):
     """
-    Handler nativo de Vercel para Python
+    Handler compatible con Vercel para Python
     """
     try:
         # Configurar headers CORS
