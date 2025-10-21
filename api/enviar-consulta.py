@@ -298,6 +298,9 @@ def handler(request):
         'Content-Type': 'application/json'
     }
     
+    # Log para debugging
+    logger.info(f"Handler ejecutado - Request: {request}")
+    
     try:
         # Obtener método HTTP
         method = request.get('method', 'GET')
