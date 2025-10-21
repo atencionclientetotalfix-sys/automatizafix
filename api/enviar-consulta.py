@@ -301,6 +301,41 @@ def handler(request):
     # Log para debugging
     logger.info(f"Handler ejecutado - Request: {request}")
     
+    # Protección contra ejecuciones duplicadas
+    import time
+    import hashlib
+    
+    # Crear un ID único basado en el contenido del request
+    request_content = str(request.get('body', '')) + str(request.get('method', ''))
+    request_id = hashlib.md5(request_content.encode()).hexdigest()
+    
+    # Verificar si ya se procesó este request recientemente (últimos 30 segundos)
+    current_time = time.time()
+    if hasattr(handler, '_processed_requests'):
+        if request_id in handler._processed_requests:
+            last_time = handler._processed_requests[request_id]
+            if current_time - last_time < 30:  # 30 segundos de protección
+                logger.info(f"Request duplicado detectado y bloqueado: {request_id}")
+                return {
+                    'statusCode': 200,
+                    'headers': headers,
+                    'body': json.dumps({
+                        'success': True,
+                        'message': 'Consulta ya procesada'
+                    })
+                }
+    else:
+        handler._processed_requests = {}
+    
+    # Marcar este request como procesado
+    handler._processed_requests[request_id] = current_time
+    
+    # Limpiar requests antiguos (más de 5 minutos)
+    handler._processed_requests = {
+        req_id: timestamp for req_id, timestamp in handler._processed_requests.items()
+        if current_time - timestamp < 300
+    }
+    
     try:
         # Obtener método HTTP
         method = request.get('method', 'GET')
