@@ -200,11 +200,10 @@ class AutomatizafixEmailHandler:
         try:
             logger.info("Iniciando envío de correos...")
             
-            # Crear mensaje principal para TotalFix
+            # Crear mensaje principal para TotalFix (sin Cc para evitar duplicados)
             msg_principal = MIMEMultipart('alternative')
             msg_principal['From'] = self.gmail_user
             msg_principal['To'] = self.gmail_user  # TotalFix
-            msg_principal['Cc'] = datos_formulario.get('email', '')  # Usuario
             msg_principal['Subject'] = f"🔧 Nueva Consulta: {datos_formulario.get('nombre', 'Cliente')} - {datos_formulario.get('empresa', 'Empresa')}"
             
             # Crear contenido
