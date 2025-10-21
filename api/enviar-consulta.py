@@ -352,41 +352,18 @@ class handler(BaseHTTPRequestHandler):
         global _processed_requests
         
         try:
+            logger.info("=" * 60)
             logger.info("POST request recibido")
             
             # Leer datos del body
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length).decode('utf-8')
             
-            logger.info(f"Body recibido: {body[:200]}...")  # Log primeros 200 caracteres
+            logger.info(f"Body recibido (primeros 200 chars): {body[:200]}...")
             
-            # Protección contra duplicados
-            request_id = hashlib.md5(body.encode()).hexdigest()
-            current_time = time.time()
-            
-            if request_id in _processed_requests:
-                last_time = _processed_requests[request_id]
-                if current_time - last_time < 30:  # 30 segundos de protección
-                    logger.info(f"Request duplicado detectado: {request_id}")
-                    self._send_json_response({
-                        'success': True,
-                        'message': 'Consulta ya procesada'
-                    })
-                    return
-            
-            # Marcar request como procesado
-            _processed_requests[request_id] = current_time
-            
-            # Limpiar cache antiguo (más de 5 minutos)
-            _processed_requests = {
-                req_id: timestamp for req_id, timestamp in _processed_requests.items()
-                if current_time - timestamp < 300
-            }
-            
-            # Parsear datos JSON
+            # Parsear datos primero para obtener información
             try:
                 datos = json.loads(body) if body else {}
-                logger.info(f"Datos parseados correctamente: {list(datos.keys())}")
             except json.JSONDecodeError as e:
                 logger.error(f"Error al parsear JSON: {str(e)}")
                 self._send_json_response({
@@ -395,6 +372,41 @@ class handler(BaseHTTPRequestHandler):
                 }, 400)
                 return
             
+            # Crear ID único basado en email + nombre + timestamp del cliente
+            # Esto es más robusto que usar solo el body completo
+            unique_data = f"{datos.get('email', '')}|{datos.get('nombre', '')}|{datos.get('timestamp', '')}"
+            request_id = hashlib.md5(unique_data.encode()).hexdigest()
+            current_time = time.time()
+            
+            logger.info(f"Request ID: {request_id[:12]}... | Email: {datos.get('email', 'N/A')}")
+            
+            # Protección contra duplicados (60 segundos de ventana)
+            if request_id in _processed_requests:
+                last_time = _processed_requests[request_id]
+                time_diff = current_time - last_time
+                if time_diff < 60:  # 60 segundos de protección
+                    logger.warning(f"⚠️ REQUEST DUPLICADO BLOQUEADO - Recibido hace {time_diff:.1f}s")
+                    logger.warning(f"Email: {datos.get('email')} | Nombre: {datos.get('nombre')}")
+                    self._send_json_response({
+                        'success': True,
+                        'message': 'Consulta ya procesada (duplicado bloqueado)'
+                    })
+                    return
+                else:
+                    logger.info(f"Request antiguo ({time_diff:.1f}s), permitiendo reenvío")
+            
+            # Marcar request como procesado ANTES de enviar correos
+            _processed_requests[request_id] = current_time
+            logger.info(f"✓ Request marcado como procesado")
+            
+            # Limpiar cache antiguo (más de 10 minutos)
+            _processed_requests = {
+                req_id: timestamp for req_id, timestamp in _processed_requests.items()
+                if current_time - timestamp < 600
+            }
+            logger.info(f"Cache de duplicados: {len(_processed_requests)} requests activos")
+            
+            # Validar que hay datos
             if not datos:
                 logger.error("No se recibieron datos")
                 self._send_json_response({

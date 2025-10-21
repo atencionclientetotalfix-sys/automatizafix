@@ -283,11 +283,20 @@ function clearFieldError(event) {
     }
 }
 
+// Variable global para prevenir envíos duplicados
+let formularioEnviando = false;
+
 /**
  * Maneja el envío del formulario
  */
 async function handleFormSubmit(event) {
     event.preventDefault();
+    
+    // Prevenir envíos múltiples
+    if (formularioEnviando) {
+        console.log('⚠️ Formulario ya se está enviando, ignorando clic duplicado');
+        return false;
+    }
     
     const form = event.target;
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -298,6 +307,9 @@ async function handleFormSubmit(event) {
     if (!validateForm(form)) {
         return false;
     }
+    
+    // Marcar como enviando
+    formularioEnviando = true;
     
     // Mostrar estado de carga
     showLoadingState(submitBtn, submitText, submitLoading);
@@ -311,6 +323,11 @@ async function handleFormSubmit(event) {
         data.dolores = Array.from(form.querySelectorAll('input[name="dolores[]"]:checked'))
             .map(cb => cb.value);
         
+        // Agregar timestamp único para identificación
+        data.timestamp = new Date().toISOString();
+        
+        console.log('📤 Enviando formulario con timestamp:', data.timestamp);
+        
         // Enviar datos al backend
         const response = await fetch('/api/enviar-consulta', {
             method: 'POST',
@@ -322,16 +339,22 @@ async function handleFormSubmit(event) {
         
         if (response.ok) {
             const result = await response.json();
+            console.log('✅ Respuesta exitosa del servidor');
             mostrarMensaje('success', '✅ ¡Consulta enviada exitosamente! Te contactaremos pronto.');
             form.reset();
         } else {
             throw new Error('Error en el servidor');
         }
     } catch (error) {
-        console.error('Error al enviar formulario:', error);
+        console.error('❌ Error al enviar formulario:', error);
         mostrarMensaje('error', '❌ Error al enviar. Contáctanos por WhatsApp: +569 6193 2656');
     } finally {
         hideLoadingState(submitBtn, submitText, submitLoading);
+        // Permitir nuevo envío después de 3 segundos (prevenir spam pero permitir reintento)
+        setTimeout(() => {
+            formularioEnviando = false;
+            console.log('✓ Formulario listo para nuevo envío');
+        }, 3000);
     }
     
     return false;
