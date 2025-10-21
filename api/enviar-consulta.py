@@ -195,10 +195,10 @@ class AutomatizafixEmailHandler:
     
     def enviar_correo_consulta(self, datos_formulario: Dict) -> bool:
         """
-        Envía correo solo al contacto de TotalFix
+        Envía 1 correo a TotalFix (notificación) y 1 correo al usuario (confirmación)
         """
         try:
-            logger.info("Iniciando envío de correo...")
+            logger.info("Iniciando envío de correos...")
             
             # Crear mensaje principal para TotalFix
             msg_principal = MIMEMultipart('alternative')
@@ -206,10 +206,20 @@ class AutomatizafixEmailHandler:
             msg_principal['To'] = self.gmail_user  # TotalFix
             msg_principal['Subject'] = f"🔧 Nueva Consulta: {datos_formulario.get('nombre', 'Cliente')} - {datos_formulario.get('empresa', 'Empresa')}"
             
-            # Crear contenido
+            # Crear contenido para TotalFix
             html_content = self.crear_plantilla_correo(datos_formulario)
             html_part = MIMEText(html_content, 'html', 'utf-8')
             msg_principal.attach(html_part)
+            
+            # Crear mensaje de confirmación para el usuario
+            msg_usuario = MIMEMultipart('alternative')
+            msg_usuario['From'] = self.gmail_user
+            msg_usuario['To'] = datos_formulario.get('email', '')
+            msg_usuario['Subject'] = "✅ Confirmación de Consulta - TotalFix"
+            
+            html_usuario = self.crear_correo_usuario(datos_formulario)
+            html_part_usuario = MIMEText(html_usuario, 'html', 'utf-8')
+            msg_usuario.attach(html_part_usuario)
             
             # Configurar servidor SMTP
             logger.info("Conectando a servidor SMTP...")
@@ -223,12 +233,17 @@ class AutomatizafixEmailHandler:
                 server.login(self.gmail_user, self.gmail_password)
                 logger.info("Autenticación exitosa")
                 
-                # Enviar correo principal a TotalFix
-                logger.info("Enviando correo principal a TotalFix...")
+                # Enviar correo a TotalFix (notificación)
+                logger.info("Enviando correo de notificación a TotalFix...")
                 server.send_message(msg_principal)
-                logger.info(f"✅ Correo enviado exitosamente a TotalFix para {datos_formulario.get('nombre')}")
+                logger.info(f"✅ Correo de notificación enviado a TotalFix")
                 
-            logger.info("Correo enviado exitosamente")
+                # Enviar correo al usuario (confirmación)
+                logger.info("Enviando correo de confirmación al usuario...")
+                server.send_message(msg_usuario)
+                logger.info(f"✅ Correo de confirmación enviado a {datos_formulario.get('email')}")
+                
+            logger.info("Ambos correos enviados exitosamente (1 a TotalFix, 1 al usuario)")
             return True
             
         except smtplib.SMTPAuthenticationError as e:
