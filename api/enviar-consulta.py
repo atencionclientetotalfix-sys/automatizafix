@@ -288,19 +288,22 @@ class AutomatizafixEmailHandler:
 
 def handler(request):
     """
-    Handler compatible con Vercel para Python
+    Handler compatible con Vercel para Python serverless functions
     """
+    # Configurar headers CORS
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Content-Type': 'application/json'
+    }
+    
     try:
-        # Configurar headers CORS
-        headers = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type': 'application/json'
-        }
+        # Obtener método HTTP
+        method = request.get('method', 'GET')
         
         # Manejar preflight OPTIONS
-        if request.method == 'OPTIONS':
+        if method == 'OPTIONS':
             return {
                 'statusCode': 200,
                 'headers': headers,
@@ -308,7 +311,7 @@ def handler(request):
             }
         
         # Solo permitir POST
-        if request.method != 'POST':
+        if method != 'POST':
             return {
                 'statusCode': 405,
                 'headers': headers,
@@ -320,10 +323,31 @@ def handler(request):
         
         # Obtener datos del request
         try:
-            datos = request.get_json()
-        except:
-            # Fallback para datos de formulario
-            datos = request.form.to_dict() if hasattr(request, 'form') else {}
+            # Intentar obtener datos del body
+            body = request.get('body', '')
+            if body:
+                datos = json.loads(body) if isinstance(body, str) else body
+            else:
+                datos = {}
+        except json.JSONDecodeError:
+            return {
+                'statusCode': 400,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Datos JSON inválidos'
+                })
+            }
+        except Exception as e:
+            logger.error(f"Error al procesar datos del request: {str(e)}")
+            return {
+                'statusCode': 400,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Error al procesar datos del request'
+                })
+            }
         
         if not datos:
             return {
@@ -336,10 +360,42 @@ def handler(request):
             }
         
         # Crear manejador de correos
-        email_handler = AutomatizafixEmailHandler()
+        try:
+            email_handler = AutomatizafixEmailHandler()
+        except ValueError as e:
+            logger.error(f"Error al inicializar email handler: {str(e)}")
+            return {
+                'statusCode': 500,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Error de configuración del servidor'
+                })
+            }
+        except Exception as e:
+            logger.error(f"Error inesperado al inicializar email handler: {str(e)}")
+            return {
+                'statusCode': 500,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Error interno del servidor'
+                })
+            }
         
         # Procesar consulta
-        resultado = email_handler.procesar_consulta(datos)
+        try:
+            resultado = email_handler.procesar_consulta(datos)
+        except Exception as e:
+            logger.error(f"Error al procesar consulta: {str(e)}")
+            return {
+                'statusCode': 500,
+                'headers': headers,
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Error al procesar la consulta'
+                })
+            }
         
         if resultado['success']:
             return {
@@ -355,12 +411,12 @@ def handler(request):
             }
             
     except Exception as e:
-        logger.error(f"Error en función serverless: {str(e)}")
+        logger.error(f"Error crítico en función serverless: {str(e)}")
         return {
             'statusCode': 500,
             'headers': headers,
             'body': json.dumps({
                 'success': False,
-                'error': 'Error interno del servidor'
+                'error': 'Error crítico del servidor'
             })
         }
