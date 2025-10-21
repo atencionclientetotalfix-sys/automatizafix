@@ -309,194 +309,160 @@ class AutomatizafixEmailHandler:
         return re.match(pattern, email) is not None
 
 # ================================================================== */
-# Función Serverless para Vercel - Handler Python Puro
+# Función Serverless para Vercel - Handler Corregido
 # ================================================================== */
 
-def handler(request):
+# Importaciones adicionales para compatibilidad con Vercel
+from http.server import BaseHTTPRequestHandler
+from urllib.parse import parse_qs
+import time
+import hashlib
+
+# Cache para evitar duplicados
+_processed_requests = {}
+
+class handler(BaseHTTPRequestHandler):
     """
-    Handler compatible con Vercel para Python serverless functions
+    Handler compatible con Vercel Python Runtime
+    Mantiene toda la lógica de correos intacta
     """
-    # Configurar headers CORS
-    headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Content-Type': 'application/json'
-    }
     
-    # Log para debugging
-    logger.info(f"Handler ejecutado - Request: {request}")
+    def _set_headers(self, status_code=200, content_type='application/json'):
+        """Configura headers CORS"""
+        self.send_response(status_code)
+        self.send_header('Content-Type', content_type)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
     
-    # Protección contra ejecuciones duplicadas
-    import time
-    import hashlib
+    def _send_json_response(self, data, status_code=200):
+        """Envía respuesta JSON"""
+        self._set_headers(status_code)
+        response = json.dumps(data, ensure_ascii=False).encode('utf-8')
+        self.wfile.write(response)
     
-    # Crear un ID único basado en el contenido del request
-    request_content = str(request.get('body', '')) + str(request.get('method', ''))
-    request_id = hashlib.md5(request_content.encode()).hexdigest()
+    def do_OPTIONS(self):
+        """Maneja preflight CORS"""
+        logger.info("Manejando preflight OPTIONS")
+        self._set_headers(200)
+        self.wfile.write(b'')
     
-    # Verificar si ya se procesó este request recientemente (últimos 30 segundos)
-    current_time = time.time()
-    if hasattr(handler, '_processed_requests'):
-        if request_id in handler._processed_requests:
-            last_time = handler._processed_requests[request_id]
-            if current_time - last_time < 30:  # 30 segundos de protección
-                logger.info(f"Request duplicado detectado y bloqueado: {request_id}")
-                return {
-                    'statusCode': 200,
-                    'headers': headers,
-                    'body': json.dumps({
+    def do_POST(self):
+        """Maneja solicitudes POST"""
+        global _processed_requests
+        
+        try:
+            logger.info("POST request recibido")
+            
+            # Leer datos del body
+            content_length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(content_length).decode('utf-8')
+            
+            logger.info(f"Body recibido: {body[:200]}...")  # Log primeros 200 caracteres
+            
+            # Protección contra duplicados
+            request_id = hashlib.md5(body.encode()).hexdigest()
+            current_time = time.time()
+            
+            if request_id in _processed_requests:
+                last_time = _processed_requests[request_id]
+                if current_time - last_time < 30:  # 30 segundos de protección
+                    logger.info(f"Request duplicado detectado: {request_id}")
+                    self._send_json_response({
                         'success': True,
                         'message': 'Consulta ya procesada'
                     })
-                }
-    else:
-        handler._processed_requests = {}
-    
-    # Marcar este request como procesado
-    handler._processed_requests[request_id] = current_time
-    
-    # Limpiar requests antiguos (más de 5 minutos)
-    handler._processed_requests = {
-        req_id: timestamp for req_id, timestamp in handler._processed_requests.items()
-        if current_time - timestamp < 300
-    }
-    
-    try:
-        # Obtener método HTTP
-        method = request.get('method', 'GET')
-        logger.info(f"Método HTTP: {method}")
-        
-        # Manejar preflight OPTIONS
-        if method == 'OPTIONS':
-            logger.info("Manejando preflight OPTIONS")
-            return {
-                'statusCode': 200,
-                'headers': headers,
-                'body': json.dumps({'message': 'OK'})
-            }
-        
-        # Solo permitir POST
-        if method != 'POST':
-            logger.error(f"Método no permitido: {method}")
-            return {
-                'statusCode': 405,
-                'headers': headers,
-                'body': json.dumps({
-                    'success': False,
-                    'error': 'Método no permitido'
-                })
-            }
-        
-        # Obtener datos del request
-        try:
-            # Intentar obtener datos del body
-            body = request.get('body', '')
-            logger.info(f"Body recibido: {body}")
+                    return
             
-            if body:
-                datos = json.loads(body) if isinstance(body, str) else body
-            else:
-                datos = {}
-                
-            logger.info(f"Datos procesados: {datos}")
+            # Marcar request como procesado
+            _processed_requests[request_id] = current_time
             
-        except json.JSONDecodeError as e:
-            logger.error(f"Error JSON: {str(e)}")
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps({
+            # Limpiar cache antiguo (más de 5 minutos)
+            _processed_requests = {
+                req_id: timestamp for req_id, timestamp in _processed_requests.items()
+                if current_time - timestamp < 300
+            }
+            
+            # Parsear datos JSON
+            try:
+                datos = json.loads(body) if body else {}
+                logger.info(f"Datos parseados correctamente: {list(datos.keys())}")
+            except json.JSONDecodeError as e:
+                logger.error(f"Error al parsear JSON: {str(e)}")
+                self._send_json_response({
                     'success': False,
                     'error': 'Datos JSON inválidos'
-                })
-            }
-        except Exception as e:
-            logger.error(f"Error al procesar datos del request: {str(e)}")
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps({
-                    'success': False,
-                    'error': 'Error al procesar datos del request'
-                })
-            }
-        
-        if not datos:
-            logger.error("No se recibieron datos")
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps({
+                }, 400)
+                return
+            
+            if not datos:
+                logger.error("No se recibieron datos")
+                self._send_json_response({
                     'success': False,
                     'error': 'No se recibieron datos'
-                })
-            }
-        
-        # Crear manejador de correos
-        try:
-            logger.info("Inicializando email handler...")
-            email_handler = AutomatizafixEmailHandler()
-            logger.info("Email handler inicializado correctamente")
-        except ValueError as e:
-            logger.error(f"Error al inicializar email handler: {str(e)}")
-            return {
-                'statusCode': 500,
-                'headers': headers,
-                'body': json.dumps({
+                }, 400)
+                return
+            
+            # Crear manejador de correos (lógica intacta)
+            try:
+                logger.info("Inicializando email handler...")
+                email_handler = AutomatizafixEmailHandler()
+                logger.info("Email handler inicializado correctamente")
+            except ValueError as e:
+                logger.error(f"Error al inicializar email handler: {str(e)}")
+                self._send_json_response({
                     'success': False,
                     'error': 'Error de configuración del servidor'
-                })
-            }
-        except Exception as e:
-            logger.error(f"Error inesperado al inicializar email handler: {str(e)}")
-            return {
-                'statusCode': 500,
-                'headers': headers,
-                'body': json.dumps({
+                }, 500)
+                return
+            except Exception as e:
+                logger.error(f"Error inesperado al inicializar: {str(e)}")
+                self._send_json_response({
                     'success': False,
                     'error': 'Error interno del servidor'
-                })
-            }
-        
-        # Procesar consulta
-        try:
-            logger.info("Procesando consulta...")
-            resultado = email_handler.procesar_consulta(datos)
-            logger.info(f"Resultado del procesamiento: {resultado}")
-        except Exception as e:
-            logger.error(f"Error al procesar consulta: {str(e)}")
-            return {
-                'statusCode': 500,
-                'headers': headers,
-                'body': json.dumps({
+                }, 500)
+                return
+            
+            # Procesar consulta (lógica intacta)
+            try:
+                logger.info("Procesando consulta...")
+                resultado = email_handler.procesar_consulta(datos)
+                logger.info(f"Resultado: {resultado}")
+            except Exception as e:
+                logger.error(f"Error al procesar consulta: {str(e)}")
+                self._send_json_response({
                     'success': False,
                     'error': 'Error al procesar la consulta'
-                })
-            }
-        
-        if resultado['success']:
-            logger.info("Consulta procesada exitosamente")
-            return {
-                'statusCode': 200,
-                'headers': headers,
-                'body': json.dumps(resultado)
-            }
-        else:
-            logger.error(f"Error en el procesamiento: {resultado.get('error', 'Error desconocido')}")
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps(resultado)
-            }
+                }, 500)
+                return
             
-    except Exception as e:
-        logger.error(f"Error crítico en función serverless: {str(e)}")
-        return {
-            'statusCode': 500,
-            'headers': headers,
-            'body': json.dumps({
+            # Enviar respuesta
+            if resultado['success']:
+                logger.info("✅ Consulta procesada exitosamente")
+                self._send_json_response(resultado, 200)
+            else:
+                logger.error(f"❌ Error: {resultado.get('error', 'Desconocido')}")
+                self._send_json_response(resultado, 400)
+                
+        except Exception as e:
+            logger.error(f"Error crítico: {str(e)}")
+            self._send_json_response({
                 'success': False,
                 'error': 'Error crítico del servidor'
-            })
-        }
+            }, 500)
+    
+    def do_GET(self):
+        """Maneja solicitudes GET - Info del endpoint"""
+        logger.info("GET request recibido")
+        self._send_json_response({
+            'service': 'Automatizafix Email API',
+            'status': 'active',
+            'version': '2.0',
+            'endpoint': '/api/enviar-consulta',
+            'method': 'POST'
+        })
+    
+    def log_message(self, format, *args):
+        """Sobrescribe log_message para usar nuestro logger"""
+        logger.info(f"{self.address_string()} - {format % args}")
