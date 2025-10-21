@@ -31,6 +31,10 @@ class AutomatizafixEmailHandler:
         self.smtp_server = "smtp.gmail.com"
         self.smtp_port = 587
         
+        # Debugging mejorado
+        logger.info(f"GMAIL_USER configurado: {self.gmail_user}")
+        logger.info(f"GMAIL_APP_PASSWORD configurado: {'SÍ' if self.gmail_password else 'NO'}")
+        
         if not self.gmail_password:
             logger.error("GMAIL_APP_PASSWORD no está configurado en las variables de entorno")
             raise ValueError("GMAIL_APP_PASSWORD es requerido")
@@ -194,6 +198,8 @@ class AutomatizafixEmailHandler:
         Envía correo al contacto de TotalFix y copia al usuario
         """
         try:
+            logger.info("Iniciando envío de correos...")
+            
             # Crear mensaje principal para TotalFix
             msg_principal = MIMEMultipart('alternative')
             msg_principal['From'] = self.gmail_user
@@ -217,22 +223,36 @@ class AutomatizafixEmailHandler:
             msg_usuario.attach(html_part_usuario)
             
             # Configurar servidor SMTP
+            logger.info("Conectando a servidor SMTP...")
             context = ssl.create_default_context()
             
             with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                logger.info("Iniciando TLS...")
                 server.starttls(context=context)
+                
+                logger.info("Autenticando con Gmail...")
                 server.login(self.gmail_user, self.gmail_password)
+                logger.info("Autenticación exitosa")
                 
                 # Enviar correo principal a TotalFix
+                logger.info("Enviando correo principal...")
                 server.send_message(msg_principal)
                 logger.info(f"Correo principal enviado a TotalFix para {datos_formulario.get('nombre')}")
                 
                 # Enviar correo de confirmación al usuario
+                logger.info("Enviando correo de confirmación...")
                 server.send_message(msg_usuario)
                 logger.info(f"Correo de confirmación enviado a {datos_formulario.get('email')}")
                 
+            logger.info("Todos los correos enviados exitosamente")
             return True
             
+        except smtplib.SMTPAuthenticationError as e:
+            logger.error(f"Error de autenticación SMTP: {str(e)}")
+            return False
+        except smtplib.SMTPException as e:
+            logger.error(f"Error SMTP: {str(e)}")
+            return False
         except Exception as e:
             logger.error(f"Error al enviar correos: {str(e)}")
             return False
@@ -242,10 +262,13 @@ class AutomatizafixEmailHandler:
         Procesa una consulta completa
         """
         try:
+            logger.info(f"Procesando consulta para: {datos_formulario.get('nombre', 'Usuario')}")
+            
             # Validar datos requeridos
             campos_requeridos = ['nombre', 'empresa', 'email', 'telefono', 'sector']
             for campo in campos_requeridos:
                 if not datos_formulario.get(campo):
+                    logger.error(f"Campo requerido faltante: {campo}")
                     return {
                         'success': False,
                         'error': f'Campo requerido faltante: {campo}'
@@ -253,6 +276,7 @@ class AutomatizafixEmailHandler:
             
             # Validar email
             if not self.validar_email(datos_formulario.get('email')):
+                logger.error("Email inválido")
                 return {
                     'success': False,
                     'error': 'Email inválido'
@@ -260,11 +284,13 @@ class AutomatizafixEmailHandler:
             
             # Enviar correos
             if self.enviar_correo_consulta(datos_formulario):
+                logger.info("Consulta procesada exitosamente")
                 return {
                     'success': True,
                     'message': 'Consulta procesada exitosamente'
                 }
             else:
+                logger.error("Error al enviar correos")
                 return {
                     'success': False,
                     'error': 'Error al enviar correos'
@@ -339,9 +365,11 @@ def handler(request):
     try:
         # Obtener método HTTP
         method = request.get('method', 'GET')
+        logger.info(f"Método HTTP: {method}")
         
         # Manejar preflight OPTIONS
         if method == 'OPTIONS':
+            logger.info("Manejando preflight OPTIONS")
             return {
                 'statusCode': 200,
                 'headers': headers,
@@ -350,6 +378,7 @@ def handler(request):
         
         # Solo permitir POST
         if method != 'POST':
+            logger.error(f"Método no permitido: {method}")
             return {
                 'statusCode': 405,
                 'headers': headers,
@@ -363,11 +392,17 @@ def handler(request):
         try:
             # Intentar obtener datos del body
             body = request.get('body', '')
+            logger.info(f"Body recibido: {body}")
+            
             if body:
                 datos = json.loads(body) if isinstance(body, str) else body
             else:
                 datos = {}
-        except json.JSONDecodeError:
+                
+            logger.info(f"Datos procesados: {datos}")
+            
+        except json.JSONDecodeError as e:
+            logger.error(f"Error JSON: {str(e)}")
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -388,6 +423,7 @@ def handler(request):
             }
         
         if not datos:
+            logger.error("No se recibieron datos")
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -399,7 +435,9 @@ def handler(request):
         
         # Crear manejador de correos
         try:
+            logger.info("Inicializando email handler...")
             email_handler = AutomatizafixEmailHandler()
+            logger.info("Email handler inicializado correctamente")
         except ValueError as e:
             logger.error(f"Error al inicializar email handler: {str(e)}")
             return {
@@ -423,7 +461,9 @@ def handler(request):
         
         # Procesar consulta
         try:
+            logger.info("Procesando consulta...")
             resultado = email_handler.procesar_consulta(datos)
+            logger.info(f"Resultado del procesamiento: {resultado}")
         except Exception as e:
             logger.error(f"Error al procesar consulta: {str(e)}")
             return {
@@ -436,12 +476,14 @@ def handler(request):
             }
         
         if resultado['success']:
+            logger.info("Consulta procesada exitosamente")
             return {
                 'statusCode': 200,
                 'headers': headers,
                 'body': json.dumps(resultado)
             }
         else:
+            logger.error(f"Error en el procesamiento: {resultado.get('error', 'Error desconocido')}")
             return {
                 'statusCode': 400,
                 'headers': headers,
