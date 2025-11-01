@@ -1692,6 +1692,30 @@ video:-ms-fullscreen {
 /* ================================================================== */
 /* Sección de Integraciones */
 /* ================================================================== */
+.integraciones-grid {
+    justify-items: center;
+    align-items: center;
+}
+
+.integracion-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.integracion-item svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.integracion-item h4 {
+    text-align: center;
+    margin: 0;
+    line-height: 1.3;
+}
+
 .integracion-item:hover {
     transform: translateY(-5px);
     background: rgba(255,255,255,0.15) !important;
@@ -1705,6 +1729,15 @@ video:-ms-fullscreen {
     
     .integracion-item h4 {
         font-size: 0.95rem !important;
+    }
+    
+    .integracion-item {
+        padding: 1rem !important;
+    }
+    
+    .integracion-item svg {
+        width: 40px !important;
+        height: 40px !important;
     }
 }
 
