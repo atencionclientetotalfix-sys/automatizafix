@@ -558,6 +558,20 @@ h2 {
     }
 }
 
+.hero-highlight {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 1rem 0 1.5rem 0;
+    line-height: 1.6;
+    animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+@media (max-width: 768px) {
+    .hero-highlight {
+        font-size: 1.25rem;
+    }
+}
+
 .hero-subtitle {
     font-size: 1.25rem;
     margin-bottom: 2rem;
@@ -1672,6 +1686,25 @@ video:-ms-fullscreen {
     .logo-header {
         height: 36px !important;
         max-width: 140px !important;
+    }
+}
+
+/* ================================================================== */
+/* Sección de Integraciones */
+/* ================================================================== */
+.integracion-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.15) !important;
+}
+
+@media (max-width: 768px) {
+    .integraciones-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+        gap: 1rem !important;
+    }
+    
+    .integracion-item h4 {
+        font-size: 0.95rem !important;
     }
 }
 
